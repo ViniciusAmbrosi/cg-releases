@@ -25,9 +25,6 @@
     <Filter Include="Arquivos de Origem\Program">
       <UniqueIdentifier>{f834f3de-0a2d-41e4-a74c-1617ee701a9c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Arquivos de Origem\ModelReader">
-      <UniqueIdentifier>{d7cd731e-1cb3-413a-b644-96053ee34ba3}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Origem.cpp">
@@ -41,9 +38,6 @@
     </ClCompile>
     <ClCompile Include="Program.cpp">
       <Filter>Arquivos de Origem\Program</Filter>
-    </ClCompile>
-    <ClCompile Include="ModelReader.cpp">
-      <Filter>Arquivos de Origem\ModelReader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -60,9 +54,6 @@
     </ClInclude>
     <ClInclude Include="Program.h">
       <Filter>Arquivos de Origem\Program</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelReader.h">
-      <Filter>Arquivos de Origem\ModelReader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
