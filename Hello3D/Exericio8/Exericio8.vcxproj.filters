@@ -25,6 +25,9 @@
     <Filter Include="Arquivos de Origem\Program">
       <UniqueIdentifier>{f834f3de-0a2d-41e4-a74c-1617ee701a9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Arquivos de Origem\Model">
+      <UniqueIdentifier>{e29d29df-0ce6-4162-8257-5fe38c110de2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Origem.cpp">
@@ -38,6 +41,9 @@
     </ClCompile>
     <ClCompile Include="Program.cpp">
       <Filter>Arquivos de Origem\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Arquivos de Origem\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +60,9 @@
     </ClInclude>
     <ClInclude Include="Program.h">
       <Filter>Arquivos de Origem\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Arquivos de Origem\Model</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
