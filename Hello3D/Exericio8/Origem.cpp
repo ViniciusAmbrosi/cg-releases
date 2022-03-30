@@ -13,6 +13,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <stddef.h>
+#include <stddef.h>
+
+bool debugging = false;
 
 // Protótipo da função de callback de teclado
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
@@ -30,7 +34,7 @@ Program setupProgram()
 // Protótipos das funções
 int setupGeometry();
 int setupFloorGeometry();
-int setupModelGeometry();
+int setupModelGeometry(Model threeDimensionalModel);
 
 const GLuint WIDTH = 1000, HEIGHT = 1000;
 
@@ -86,7 +90,11 @@ int main()
 	// Gerando um buffer simples, com a geometria de um triângulo
 	GLuint VAO = setupGeometry();
 	GLuint VAO_FLOOR = setupFloorGeometry();
-	GLuint VAO_MODEL = setupModelGeometry();
+
+	//Model threeDimensionalModel = Model("Resources/Models/Cube/cube.obj");
+	Model threeDimensionalModel = Model("Resources/Models/Pokemon/Pikachu.obj");
+	//Model threeDimensionalModel = Model("Resources/Models/Classic-NoTexture/apple.obj");
+	GLuint VAO_MODEL = setupModelGeometry(threeDimensionalModel);
 
 	glUseProgram(program.GetProgram());
 
@@ -166,7 +174,7 @@ int main()
 		//FOCUS: This dictates how many figures will be drawn
 		//drawElement(VAO, 12);
 		//drawElement(VAO_FLOOR, 2);
-		drawElement(VAO_MODEL, 12);
+		drawElement(VAO_MODEL, threeDimensionalModel.getVertices().size() / 3);
 
 		// Troca os buffers da tela
 		glfwSwapBuffers(window);
@@ -189,7 +197,6 @@ void resetMovement() {
 	rotateLeft = false;
 	rotateRight = false;
 }
-
 void resetEverything() {
 	resetMovement();
 
@@ -197,7 +204,6 @@ void resetEverything() {
 	cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 	cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 }
-
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	if (fov >= 1.0f && fov <= 45.0f)
@@ -207,7 +213,6 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 	if (fov >= 45.0f)
 		fov = 45.0f;
 }
-
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
 	if (firstMouse)
@@ -240,7 +245,6 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
 	cameraFront = glm::normalize(front);
 }
-
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
 	float cameraSpeed = 10.0f * deltaTime;
@@ -542,25 +546,25 @@ int setupFloorGeometry()
 
 	return VAO;
 }
-int setupModelGeometry() {
+int setupModelGeometry(Model threeDimensionalModel) {
+	if (debugging)
+	{
+		printf("Number of vertices %d | Number of triangles %d | Number of squares %d \n",
+			threeDimensionalModel.getVertices().size(),
+			threeDimensionalModel.getVertices().size() / 3,
+			threeDimensionalModel.getVertices().size() / 6);
 
-	Model threeDimensionalModel = Model("Resources/Models/Cube/cube.obj");
+		for (int i = 0; i < threeDimensionalModel.getVertices().size(); ++i) {
+			printf("Vertice x: %f y: %f z: %f \n", threeDimensionalModel.getVertices()[i].x, threeDimensionalModel.getVertices()[i].y, threeDimensionalModel.getVertices()[i].z);
+		}
 
-	printf("Number of vertices %d | Number of triangles %d | Number of squares %d \n",
-		threeDimensionalModel.getVertices().size(),
-		threeDimensionalModel.getVertices().size() / 3,
-		threeDimensionalModel.getVertices().size() / 6);
+		for (int i = 0; i < threeDimensionalModel.getUvs().size(); ++i) {
+			printf("Uvs x: %f y: %f  \n", threeDimensionalModel.getUvs()[i].x, threeDimensionalModel.getUvs()[i].y);
+		}
 
-	for (int i = 0; i < threeDimensionalModel.getVertices().size(); ++i) {
-		printf("Vertice x: %f y: %f z: %f \n", threeDimensionalModel.getVertices()[i].x, threeDimensionalModel.getVertices()[i].y, threeDimensionalModel.getVertices()[i].z);
-	}
-
-	for (int i = 0; i < threeDimensionalModel.getUvs().size(); ++i) {
-		printf("Uvs x: %f y: %f  \n", threeDimensionalModel.getUvs()[i].x, threeDimensionalModel.getUvs()[i].y);
-	}
-
-	for (int i = 0; i < threeDimensionalModel.getNormals().size(); ++i) {
-		printf("Normal x: %f y: %f z: %f  \n", threeDimensionalModel.getNormals()[i].x, threeDimensionalModel.getNormals()[i].y, threeDimensionalModel.getNormals()[i].z);
+		for (int i = 0; i < threeDimensionalModel.getNormals().size(); ++i) {
+			printf("Normal x: %f y: %f z: %f  \n", threeDimensionalModel.getNormals()[i].x, threeDimensionalModel.getNormals()[i].y, threeDimensionalModel.getNormals()[i].z);
+		}
 	}
 
 	GLuint VBO, VAO;
@@ -569,17 +573,23 @@ int setupModelGeometry() {
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, threeDimensionalModel.getVertices().size() * sizeof(glm::vec3), &threeDimensionalModel.getVertices()[0], GL_STATIC_DRAW);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, threeDimensionalModel.vertexIndices.size() * sizeof(unsigned int), &threeDimensionalModel.vertexIndices[0], GL_STATIC_DRAW);
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 
 	//Atributo posição (x, y, z)
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, threeDimensionalModel.getVertices().size() / 12 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
 	glEnableVertexAttribArray(0);
 
 	////Atributo cor (r, g, b)
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, threeDimensionalModel.getVertices().size() / 12 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)(3 * sizeof(glm::vec3)));
 	glEnableVertexAttribArray(1);
+
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)(3 * sizeof(glm::vec3)));
+	glEnableVertexAttribArray(2);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
