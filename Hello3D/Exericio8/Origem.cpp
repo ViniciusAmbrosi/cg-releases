@@ -13,12 +13,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <stddef.h>
-#include <stddef.h>
 
 bool debugging = false;
 
-// Protótipo da função de callback de teclado
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
@@ -31,7 +28,6 @@ Program setupProgram()
 	return Program(vertexShaderSource, fragmentShaderSource);
 }
 
-// Protótipos das funções
 int setupGeometry();
 int setupFloorGeometry();
 int setupModelGeometry(Model threeDimensionalModel);
@@ -73,32 +69,29 @@ int main()
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GLFW_TRUE);
 
-	// GLAD: carrega todos os ponteiros d funções da OpenGL
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cout << "Failed to initialize GLAD" << std::endl;
 	}
 
-	// Definindo as dimensões da viewport com as mesmas dimensões da janela da aplicação
 	int width, height;
 	glfwGetFramebufferSize(window, &width, &height);
 	glViewport(0, 0, width, height);
 
-	// Compilando e buildando o programa de shader
 	Program program = setupProgram();
 
-	// Gerando um buffer simples, com a geometria de um triângulo
-	GLuint VAO = setupGeometry();
-	GLuint VAO_FLOOR = setupFloorGeometry();
-
-	//Model threeDimensionalModel = Model("Resources/Models/Cube/cube.obj");
-	Model threeDimensionalModel = Model("Resources/Models/Pokemon/Pikachu.obj");
-	//Model threeDimensionalModel = Model("Resources/Models/Classic-NoTexture/apple.obj");
-	GLuint VAO_MODEL = setupModelGeometry(threeDimensionalModel);
+	Model cube = Model("Resources/Models/Cube/cube.obj");
+	Model malePikachu = Model("Resources/Models/Pokemon/Pikachu.obj");
+	Model femalePikachu = Model("Resources/Models/Pokemon/PikachuF.obj");
+	
+	GLuint VAO_BASIC_CUBE = setupGeometry();
+	GLuint VAO_BASIC_FLOOR = setupFloorGeometry();
+	GLuint VAO_MALE_PIKACHU = setupModelGeometry(malePikachu);
+	GLuint VAO_FEMALE_PIKACHU = setupModelGeometry(femalePikachu);
 
 	glUseProgram(program.GetProgram());
 
-	glm::mat4 model = glm::mat4(1); //matriz identidade;
+	glm::mat4 model = glm::mat4(1); 
 	GLint modelLoc = glGetUniformLocation(program.GetProgram(), "model");
 
 	glm::mat4 view;
@@ -106,29 +99,24 @@ int main()
 
 	glm::mat4 projection;
 	GLint projLoc = glGetUniformLocation(program.GetProgram(), "projection");
+
 	projection = glm::perspective(glm::radians(fov), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
-	//projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
 
-	model = glm::rotate(model, /*(GLfloat)glfwGetTime()*/glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-
-	// Passa seu conteúdo para o shader
+	model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
 	glEnable(GL_DEPTH_TEST);
 
-	// Loop da aplicação - "game loop"
 	while (!glfwWindowShouldClose(window))
 	{
 		float currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		// Checa se houveram eventos de input (key pressed, mouse moved etc.) e chama as funções de callback correspondentes
 		glfwPollEvents();
 
-		// Limpa o buffer de cor
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f); //cor de fundo
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -140,23 +128,18 @@ int main()
 		model = glm::mat4(1);
 		if (rotateX && rotateUp)
 		{
-			glBindVertexArray(VAO);
 			model = glm::rotate(model, angle, glm::vec3(1.0f, 0.0f, 0.0f));
 		}
 		else if (rotateX && rotateDown)
 		{
-			glBindVertexArray(VAO);
 			model = glm::rotate(model, angle, glm::vec3(-1.0f, 0.0f, 0.0f));
 		}
 		else if (rotateY && rotateLeft)
 		{
-			glBindVertexArray(VAO);
 			model = glm::rotate(model, angle, glm::vec3(0.0f, 1.0f, 0.0f));
-
 		}
 		else if (rotateY && rotateRight)
 		{
-			glBindVertexArray(VAO);
 			model = glm::rotate(model, angle, glm::vec3(0.0f, -1.0f, 0.0f));
 		}
 
@@ -167,21 +150,19 @@ int main()
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
-		//glBindVertexArray(VAO);
+		//glBindVertexArray(VAO_BASIC_CUBE);
 		//glBindVertexArray(VAO_FLOOR);
-		glBindVertexArray(VAO_MODEL);
+		//glBindVertexArray(VAO_FEMALE_PIKACHU);
+		glBindVertexArray(VAO_MALE_PIKACHU);
 
-		//FOCUS: This dictates how many figures will be drawn
-		//drawElement(VAO, 12);
+		//drawElement(VAO_BASIC_CUBE, 12);
 		//drawElement(VAO_FLOOR, 2);
-		drawElement(VAO_MODEL, threeDimensionalModel.getVertices().size() / 3);
+		//drawElement(VAO_MODEL, threeDimensionalModel.getVertices().size() / 3);
+		drawElement(VAO_MALE_PIKACHU, femalePikachu.getVertices().size() / 3);
 
-		// Troca os buffers da tela
 		glfwSwapBuffers(window);
 	}
-	// Pede pra OpenGL desalocar os buffers
-	//glDeleteVertexArrays(1, &VAO);
-	glDeleteVertexArrays(1, &VAO_MODEL);
+	glDeleteVertexArrays(1, &VAO_MALE_PIKACHU);
 
 	glfwTerminate();
 	return 0;
@@ -247,7 +228,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 }
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
-	float cameraSpeed = 10.0f * deltaTime;
+	float cameraSpeed = 200.0f * deltaTime;
 
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
@@ -343,25 +324,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 int setupGeometry()
 {
-	// FRONT FACE
-	// A (top-left) -> - 0.5 |   0.5 | - 0.5
-	// B (top-right) ->  0.5 |   0.5 | - 0.5
-	// C (low-left) -> - 0.5 | - 0.5 | - 0.5
-	// D (low-right) ->  0.5 | - 0.5 | - 0.5
-	// BACK FACE
-	// A' (top-left) -> - 0.5 |   0.5 | 0.5
-	// B' (top-right) ->  0.5 |   0.5 | 0.5
-	// C' (low-left) -> - 0.5 | - 0.5 | 0.5
-	// D' (low-right) ->  0.5 | - 0.5 | 0.5
-
-	//MEANING THAT A CUBE IS MADE OF
-	//BOTTOM CDC' + DD'C'
-	//TOP ABA' + BB'A'
-	//FRONT ABC + BCA
-	//BACK A'B'C' + B'C'A'
-	//LEFT ACC' + AA'C'
-	//RIGHT BDD' + BB'D'
-
 	GLfloat vertices[] = {
 		//bottom CDC' + DD'C'
 		-0.5, -0.5, -0.5, 0.0, 0.0, 0.0,
@@ -428,70 +390,27 @@ int setupGeometry()
 
 	GLuint VBO, VAO;
 
-	//Geração do identificador do VBO
 	glGenBuffers(1, &VBO);
 
-	//Faz a conexão (vincula) do buffer como um buffer de array
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-	//Envia os dados do array de floats para o buffer da OpenGl
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(floor), floor, GL_STATIC_DRAW);
 
-	//Geração do identificador do VAO (Vertex Array Object)
 	glGenVertexArrays(1, &VAO);
-
-	// Vincula (bind) o VAO primeiro, e em seguida  conecta e seta o(s) buffer(s) de vértices
-	// e os ponteiros para os atributos 
 	glBindVertexArray(VAO);
 
-	//Para cada atributo do vertice, criamos um "AttribPointer" (ponteiro para o atributo), indicando: 
-	// Localização no shader * (a localização dos atributos devem ser correspondentes no layout especificado no vertex shader)
-	// Numero de valores que o atributo tem (por ex, 3 coordenadas xyz) 
-	// Tipo do dado
-	// Se está normalizado (entre zero e um)
-	// Tamanho em bytes 
-	// Deslocamento a partir do byte zero 
-
-	//Atributo posição (x, y, z)
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
 	glEnableVertexAttribArray(0);
 
-	//Atributo cor (r, g, b)
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(1);
 
-	// Observe que isso é permitido, a chamada para glVertexAttribPointer registrou o VBO como o objeto de buffer de vértice 
-	// atualmente vinculado - para que depois possamos desvincular com segurança
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	// Desvincula o VAO (é uma boa prática desvincular qualquer buffer ou array para evitar bugs medonhos)
 	glBindVertexArray(0);
 
 	return VAO;
 }
 int setupFloorGeometry()
 {
-	//FOCUS: For a cube there are 8 main points
-	// FRONT FACE
-	// A (top-left) -> - 0.5 |   0.5 | - 0.5
-	// B (top-right) ->  0.5 |   0.5 | - 0.5
-	// C (low-left) -> - 0.5 | - 0.5 | - 0.5
-	// D (low-right) ->  0.5 | - 0.5 | - 0.5
-	// BACK FACE
-	// A' (top-left) -> - 0.5 |   0.5 | 0.5
-	// B' (top-right) ->  0.5 |   0.5 | 0.5
-	// C' (low-left) -> - 0.5 | - 0.5 | 0.5
-	// D' (low-right) ->  0.5 | - 0.5 | 0.5
-
-	//MEANING THAT A CUBE IS MADE OF
-	//BOTTOM CDC' + DD'C'
-	//TOP ABA' + BB'A'
-	//FRONT ABC + BCA
-	//BACK A'B'C' + B'C'A'
-	//LEFT ACC' + AA'C'
-	//RIGHT BDD' + BB'D'
-
 	GLfloat floor[] = {
 		 2.0, -1.0,  2.0, 0.0, 0.0, 0.0,
 		-2.0, -1.0, -2.0, 0.0, 0.0, 0.0,
@@ -504,49 +423,28 @@ int setupFloorGeometry()
 
 	GLuint VBO, VAO;
 
-	//Geração do identificador do VBO
 	glGenBuffers(1, &VBO);
 
-	//Faz a conexão (vincula) do buffer como um buffer de array
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-	//Envia os dados do array de floats para o buffer da OpenGl
 	glBufferData(GL_ARRAY_BUFFER, sizeof(floor), floor, GL_STATIC_DRAW);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(floor), floor, GL_STATIC_DRAW);
 
-	//Geração do identificador do VAO (Vertex Array Object)
 	glGenVertexArrays(1, &VAO);
-
-	// Vincula (bind) o VAO primeiro, e em seguida  conecta e seta o(s) buffer(s) de vértices
-	// e os ponteiros para os atributos 
 	glBindVertexArray(VAO);
 
-	//Para cada atributo do vertice, criamos um "AttribPointer" (ponteiro para o atributo), indicando: 
-	// Localização no shader * (a localização dos atributos devem ser correspondentes no layout especificado no vertex shader)
-	// Numero de valores que o atributo tem (por ex, 3 coordenadas xyz) 
-	// Tipo do dado
-	// Se está normalizado (entre zero e um)
-	// Tamanho em bytes 
-	// Deslocamento a partir do byte zero 
-
-	//Atributo posição (x, y, z)
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
 	glEnableVertexAttribArray(0);
 
-	//Atributo cor (r, g, b)
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(1);
 
-	// Observe que isso é permitido, a chamada para glVertexAttribPointer registrou o VBO como o objeto de buffer de vértice 
-	// atualmente vinculado - para que depois possamos desvincular com segurança
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	// Desvincula o VAO (é uma boa prática desvincular qualquer buffer ou array para evitar bugs medonhos)
 	glBindVertexArray(0);
 
 	return VAO;
 }
 int setupModelGeometry(Model threeDimensionalModel) {
+
 	if (debugging)
 	{
 		printf("Number of vertices %d | Number of triangles %d | Number of squares %d \n",
@@ -572,24 +470,22 @@ int setupModelGeometry(Model threeDimensionalModel) {
 	glGenBuffers(1, &VBO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, threeDimensionalModel.getVertices().size() * sizeof(glm::vec3), &threeDimensionalModel.getVertices()[0], GL_STATIC_DRAW);
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, threeDimensionalModel.vertexIndices.size() * sizeof(unsigned int), &threeDimensionalModel.vertexIndices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 
+		threeDimensionalModel.getVertices().size() * sizeof(glm::vec3), 
+		//&threeDimensionalModel.getVertices()[0], 
+		threeDimensionalModel.getVertices().data(),
+		GL_STATIC_DRAW);
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 
 	//Atributo posição (x, y, z)
-	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, threeDimensionalModel.getVertices().size() / 12 * sizeof(GLfloat), (GLvoid*)0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
 
-	////Atributo cor (r, g, b)
-	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, threeDimensionalModel.getVertices().size() / 12 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)(3 * sizeof(glm::vec3)));
+	//Atributo cor (r, g, b)
 	glEnableVertexAttribArray(1);
-
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)(3 * sizeof(glm::vec3)));
-	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 

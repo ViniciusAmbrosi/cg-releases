@@ -154,13 +154,13 @@
     <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="fragmentShader.fs" />
-    <None Include="vertexShader.vs" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Model.h" />
     <ClInclude Include="Program.h" />
     <ClInclude Include="Shader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ShaderFiles\fragmentShader.fs" />
+    <None Include="Resources\ShaderFiles\vertexShader.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

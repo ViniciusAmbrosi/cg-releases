@@ -47,14 +47,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="fragmentShader.fs">
-      <Filter>Arquivos de Origem\Resources\ShaderFiles</Filter>
-    </None>
-    <None Include="vertexShader.vs">
-      <Filter>Arquivos de Origem\Resources\ShaderFiles</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Shader.h">
       <Filter>Arquivos de Origem\Shader</Filter>
     </ClInclude>
@@ -64,5 +56,13 @@
     <ClInclude Include="Model.h">
       <Filter>Arquivos de Origem\Model</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ShaderFiles\vertexShader.vs">
+      <Filter>Arquivos de Origem\Resources\ShaderFiles</Filter>
+    </None>
+    <None Include="Resources\ShaderFiles\fragmentShader.fs">
+      <Filter>Arquivos de Origem\Resources\ShaderFiles</Filter>
+    </None>
   </ItemGroup>
 </Project>

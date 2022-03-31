@@ -9,16 +9,9 @@
 
 using namespace std;
 
-//struct Vertex {
-//	glm::vec3 Position;
-//	glm::vec3 Normal;
-//	glm::vec2 TexCoords;
-//};
-
 class Model
 {
 public:
-	//std::vector <Vertex> vertexes;
 	std::vector < glm::vec3 > vertices;
 	std::vector < glm::vec2 > uvs;
 	std::vector < glm::vec3 > normals;
@@ -82,33 +75,23 @@ public:
 			}
 		}
 
-		//Vertex vertexStruct;
-
 		for (unsigned int i = 0; i < vertexIndices.size(); i++) {
 			unsigned int vertexIndex = vertexIndices[i];
 			glm::vec3 vertex = temp_vertices[vertexIndex - 1];
 			vertices.push_back(vertex);
-
-			//vertexStruct.Position = vertex;
 		}
 
 		for (unsigned int i = 0; i < uvIndices.size(); i++) {
 			unsigned int uvIndex = uvIndices[i];
 			glm::vec2 vertex = temp_uvs[uvIndex - 1];
 			uvs.push_back(vertex);
-
-			//vertexStruct.TexCoords = vertex;
 		}
 
 		for (unsigned int i = 0; i < normalIndices.size(); i++) {
 			unsigned int normalIndex = normalIndices[i];
 			glm::vec3 vertex = temp_normals[normalIndex - 1];
 			normals.push_back(vertex);
-
-			//vertexStruct.Normal = vertex;
 		}
-
-		//vertexes.push_back(vertexStruct);
 	}
 
 	std::vector < glm::vec3 > getVertices() {
