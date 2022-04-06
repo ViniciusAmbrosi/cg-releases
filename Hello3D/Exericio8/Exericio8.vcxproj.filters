@@ -28,6 +28,9 @@
     <Filter Include="Arquivos de Origem\Model">
       <UniqueIdentifier>{e29d29df-0ce6-4162-8257-5fe38c110de2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Arquivos de Origem\Geometry">
+      <UniqueIdentifier>{31e517a5-dfbb-4d56-9bf0-2e0e5da3a274}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Origem.cpp">
@@ -45,6 +48,9 @@
     <ClCompile Include="Model.cpp">
       <Filter>Arquivos de Origem\Model</Filter>
     </ClCompile>
+    <ClCompile Include="Geometry.cpp">
+      <Filter>Arquivos de Origem\Geometry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -55,6 +61,9 @@
     </ClInclude>
     <ClInclude Include="Model.h">
       <Filter>Arquivos de Origem\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry.h">
+      <Filter>Arquivos de Origem\Geometry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

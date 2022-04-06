@@ -6,6 +6,7 @@
 #include "Model.cpp"
 #include "Program.cpp"
 #include "Shader.cpp"
+#include "Geometry.cpp"
 
 #include <string>
 #include <assert.h>
