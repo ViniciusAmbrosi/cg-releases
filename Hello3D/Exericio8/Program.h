@@ -17,17 +17,38 @@ class Geometry
 public:
 	GLuint VAO;
 	GLuint VBO;
+	int Triangles;
 
-	Geometry(GLuint vao, GLuint vbo)
+	Geometry(GLuint vao, GLuint vbo, int triangles)
 	{
 		VAO = vao;
 		VBO = vbo;
+		Triangles = triangles;
+	}
+
+	void DrawElements()
+	{
+		glBindVertexArray(VAO);
+		DrawElements(VAO, Triangles);
+	}
+
+	void DeleteElements()
+	{
+		glDeleteVertexArrays(1, &VAO);
+	}
+
+private:
+	void DrawElements(GLuint vao, int size) {
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glBindVertexArray(vao);
+		glDrawArrays(GL_TRIANGLES, 0, size * 3);
 	}
 };
 
 class Program
 {
 public:
+
 	bool debugging = false;
 	GLuint ShaderProgram;
 	std::vector < Geometry > Geometries;
@@ -47,6 +68,22 @@ public:
 
 		glDeleteShader(vertexShader.GetShader());
 		glDeleteShader(fragmentShader.GetShader());
+	}
+
+	void DrawAllGeometries()
+	{
+		for (Geometry geometry : Geometries)
+		{
+			geometry.DrawElements();
+		}
+	}
+
+	void DeleteAllGeometries()
+	{
+		for (Geometry geometry : Geometries)
+		{
+			geometry.DeleteElements();
+		}
 	}
 
 	Geometry SetupGeometryForModel(Model model)
@@ -76,7 +113,7 @@ public:
 
 		glBindVertexArray(0);
 
-		Geometry newGeometry = Geometry(VAO, VBO);
+		Geometry newGeometry = Geometry(VAO, VBO, model.getVertices().size() / 3);
 
 		Geometries.push_back(newGeometry);
 		
@@ -108,12 +145,19 @@ public:
 
 		glBindVertexArray(0);
 
-		Geometry newGeometry = Geometry(VAO, VBO);
+		Geometry newGeometry = Geometry(VAO, VBO, vector.size() / 3);
 
 		Geometries.push_back(newGeometry);
 
 		return newGeometry;
 	}
+
+	const GLuint GetProgram()
+	{
+		return ShaderProgram;
+	}
+
+private:
 
 	void DisplayModelProperties(Model model)
 	{
@@ -145,11 +189,6 @@ public:
 			glGetShaderInfoLog(programId, 512, NULL, resultMessage);
 			std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << resultMessage << endl;
 		}
-	}
-
-	const GLuint GetProgram()
-	{
-		return ShaderProgram;
 	}
 };
 

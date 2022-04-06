@@ -109,11 +109,11 @@ glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 5.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
-void drawElement(GLuint vao, int size) {
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glBindVertexArray(vao);
-	glDrawArrays(GL_TRIANGLES, 0, size * 3);
-}
+//void drawElement(GLuint vao, int size) {
+//	glBindTexture(GL_TEXTURE_2D, 0);
+//	glBindVertexArray(vao);
+//	glDrawArrays(GL_TRIANGLES, 0, size * 3);
+//}
 
 int main()
 {
@@ -210,19 +210,12 @@ int main()
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
-		glBindVertexArray(VAO_BASIC_CUBE.VAO);
-		glBindVertexArray(VAO_BASIC_FLOOR.VAO);
-		glBindVertexArray(VAO_FEMALE_PIKACHU.VAO);
-		//glBindVertexArray(VAO_MALE_PIKACHU.VAO);
-
-		drawElement(VAO_BASIC_CUBE.VAO, 12);
-		drawElement(VAO_BASIC_FLOOR.VAO, 2);
-		drawElement(VAO_MALE_PIKACHU.VAO, malePikachu.getVertices().size() / 3);
-		//drawElement(VAO_MALE_PIKACHU.VAO, femalePikachu.getVertices().size() / 3);
+		program.DrawAllGeometries();
 
 		glfwSwapBuffers(window);
 	}
-	glDeleteVertexArrays(1, &VAO_MALE_PIKACHU.VAO);
+
+	program.DeleteAllGeometries();
 
 	glfwTerminate();
 	return 0;
