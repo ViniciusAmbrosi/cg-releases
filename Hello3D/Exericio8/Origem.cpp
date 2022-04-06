@@ -1,10 +1,11 @@
 ﻿using namespace std;
 
 #define _CRT_SECURE_NO_DEPRECATE
+#define _CRT_SECURE_NO_WARNINGS
 
+#include "Model.cpp"
 #include "Program.cpp"
 #include "Shader.cpp"
-#include "Model.cpp"
 
 #include <string>
 #include <assert.h>
@@ -14,11 +15,74 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-bool debugging = false;
-
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+
+std::vector <GLfloat> FloorVector = {
+	 2.0, -1.0,  2.0, 0.0, 0.0, 0.0,
+	-2.0, -1.0, -2.0, 0.0, 0.0, 0.0,
+	 2.0, -1.0, -2.0, 0.0, 0.0, 0.0,
+
+	 2.0, -1.0,  2.0, 0.0, 0.0, 0.0,
+	-2.0, -1.0,  2.0, 0.0, 0.0, 0.0,
+	-2.0, -1.0, -2.0, 0.0, 0.0, 0.0,
+};
+std::vector <GLfloat> CubeVector = {
+	//bottom CDC' + DD'C'
+	-0.5, -0.5, -0.5, 0.0, 0.0, 0.0,
+	-0.5, -0.5,  0.5, 0.0, 0.0, 0.0,
+	0.5, -0.5, -0.5,  0.0, 0.0, 0.0,
+
+	-0.5, -0.5,  0.5, 0.0, 0.0, 0.0,
+	0.5, -0.5,  0.5,  0.0, 0.0, 0.0,
+	0.5, -0.5, -0.5,  0.0, 0.0, 0.0,
+
+	//top ABA' + BB'A'
+	-0.5, 0.5, -0.5, 1.0, 0.0, 0.0,
+	-0.5, 0.5,  0.5, 1.0, 0.0, 0.0,
+	0.5, 0.5, -0.5,  1.0, 0.0, 0.0,
+
+	-0.5, 0.5,  0.5, 1.0, 0.0, 0.0,
+	0.5, 0.5,  0.5,  1.0, 0.0, 0.0,
+	0.5, 0.5, -0.5,  1.0, 0.0, 0.0,
+
+	//front ABC + BCA
+	-0.5,  0.5, 0.5, 0.0, 1.0, 0.0,
+	-0.5, -0.5, 0.5, 0.0, 1.0, 0.0,
+	0.5, -0.5, 0.5,  0.0, 1.0, 0.0,
+
+	-0.5,  0.5, 0.5, 0.0, 1.0, 0.0,
+	0.5,  0.5, 0.5,  0.0, 1.0, 0.0,
+	0.5, -0.5, 0.5,  0.0, 1.0, 0.0,
+
+	//back A'B'C' + B'C'A'
+	-0.5,  0.5, -0.5, 1.0, 1.0, 0.0,
+	-0.5, -0.5, -0.5, 1.0, 1.0, 0.0,
+	0.5, -0.5, -0.5,  1.0, 1.0, 0.0,
+
+	-0.5, 0.5, -0.5, 1.0, 1.0, 0.0,
+	0.5,  0.5, -0.5, 1.0, 1.0, 0.0,
+	0.5, -0.5, -0.5, 1.0, 1.0, 0.0,
+
+	//left ACC' + AA'C'
+	-0.5, 0.5,  -0.5, 1.0, 0.0, 1.0,
+	-0.5, -0.5, -0.5, 1.0, 0.0, 1.0,
+	-0.5, -0.5, 0.5,  1.0, 0.0, 1.0,
+
+	-0.5, 0.5,  -0.5, 1.0, 0.0, 1.0,
+	-0.5, 0.5,  0.5,  1.0, 0.0, 1.0,
+	-0.5, -0.5, 0.5,  1.0, 0.0, 1.0,
+
+	//right BDD' + BB'D'
+	0.5,  0.5, -0.5, 0.0, 0.0, 1.0,
+	0.5, -0.5, -0.5, 0.0, 0.0, 1.0,
+	0.5, -0.5, 0.5,  0.0, 0.0, 1.0,
+
+	0.5, 0.5, -0.5, 0.0, 0.0, 1.0,
+	0.5, 0.5, 0.5,  0.0, 0.0, 1.0,
+	0.5, -0.5, 0.5, 0.0, 0.0, 1.0,
+};
 
 Program setupProgram()
 {
@@ -27,10 +91,6 @@ Program setupProgram()
 
 	return Program(vertexShaderSource, fragmentShaderSource);
 }
-
-int setupGeometry();
-int setupFloorGeometry();
-int setupModelGeometry(Model threeDimensionalModel);
 
 const GLuint WIDTH = 1000, HEIGHT = 1000;
 
@@ -84,10 +144,10 @@ int main()
 	Model malePikachu = Model("Resources/Models/Pokemon/Pikachu.obj");
 	Model femalePikachu = Model("Resources/Models/Pokemon/PikachuF.obj");
 	
-	GLuint VAO_BASIC_CUBE = setupGeometry();
-	GLuint VAO_BASIC_FLOOR = setupFloorGeometry();
-	GLuint VAO_MALE_PIKACHU = setupModelGeometry(malePikachu);
-	GLuint VAO_FEMALE_PIKACHU = setupModelGeometry(femalePikachu);
+	Geometry VAO_BASIC_CUBE = program.SetupGeometryForArray(CubeVector);
+	Geometry VAO_BASIC_FLOOR = program.SetupGeometryForArray(FloorVector);
+	Geometry VAO_MALE_PIKACHU = program.SetupGeometryForModel(malePikachu);
+	Geometry VAO_FEMALE_PIKACHU = program.SetupGeometryForModel(femalePikachu);
 
 	glUseProgram(program.GetProgram());
 
@@ -150,19 +210,19 @@ int main()
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
-		//glBindVertexArray(VAO_BASIC_CUBE);
-		//glBindVertexArray(VAO_FLOOR);
-		//glBindVertexArray(VAO_FEMALE_PIKACHU);
-		glBindVertexArray(VAO_MALE_PIKACHU);
+		glBindVertexArray(VAO_BASIC_CUBE.VAO);
+		glBindVertexArray(VAO_BASIC_FLOOR.VAO);
+		glBindVertexArray(VAO_FEMALE_PIKACHU.VAO);
+		//glBindVertexArray(VAO_MALE_PIKACHU.VAO);
 
-		//drawElement(VAO_BASIC_CUBE, 12);
-		//drawElement(VAO_FLOOR, 2);
-		//drawElement(VAO_MODEL, threeDimensionalModel.getVertices().size() / 3);
-		drawElement(VAO_MALE_PIKACHU, femalePikachu.getVertices().size() / 3);
+		drawElement(VAO_BASIC_CUBE.VAO, 12);
+		drawElement(VAO_BASIC_FLOOR.VAO, 2);
+		drawElement(VAO_MALE_PIKACHU.VAO, malePikachu.getVertices().size() / 3);
+		//drawElement(VAO_MALE_PIKACHU.VAO, femalePikachu.getVertices().size() / 3);
 
 		glfwSwapBuffers(window);
 	}
-	glDeleteVertexArrays(1, &VAO_MALE_PIKACHU);
+	glDeleteVertexArrays(1, &VAO_MALE_PIKACHU.VAO);
 
 	glfwTerminate();
 	return 0;
@@ -320,176 +380,4 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	{
 		resetEverything();
 	}
-}
-
-int setupGeometry()
-{
-	GLfloat vertices[] = {
-		//bottom CDC' + DD'C'
-		-0.5, -0.5, -0.5, 0.0, 0.0, 0.0,
-		-0.5, -0.5,  0.5, 0.0, 0.0, 0.0,
-		0.5, -0.5, -0.5,  0.0, 0.0, 0.0,
-
-		-0.5, -0.5,  0.5, 0.0, 0.0, 0.0,
-		0.5, -0.5,  0.5,  0.0, 0.0, 0.0,
-		0.5, -0.5, -0.5,  0.0, 0.0, 0.0,
-
-		//top ABA' + BB'A'
-		-0.5, 0.5, -0.5, 1.0, 0.0, 0.0,
-		-0.5, 0.5,  0.5, 1.0, 0.0, 0.0,
-		0.5, 0.5, -0.5,  1.0, 0.0, 0.0,
-
-		-0.5, 0.5,  0.5, 1.0, 0.0, 0.0,
-		0.5, 0.5,  0.5,  1.0, 0.0, 0.0,
-		0.5, 0.5, -0.5,  1.0, 0.0, 0.0,
-
-		//front ABC + BCA
-		-0.5,  0.5, 0.5, 0.0, 1.0, 0.0,
-		-0.5, -0.5, 0.5, 0.0, 1.0, 0.0,
-		0.5, -0.5, 0.5,  0.0, 1.0, 0.0,
-
-		-0.5,  0.5, 0.5, 0.0, 1.0, 0.0,
-		0.5,  0.5, 0.5,  0.0, 1.0, 0.0,
-		0.5, -0.5, 0.5,  0.0, 1.0, 0.0,
-
-		//back A'B'C' + B'C'A'
-		-0.5,  0.5, -0.5, 1.0, 1.0, 0.0,
-		-0.5, -0.5, -0.5, 1.0, 1.0, 0.0,
-		0.5, -0.5, -0.5,  1.0, 1.0, 0.0,
-
-		-0.5, 0.5, -0.5, 1.0, 1.0, 0.0,
-		0.5,  0.5, -0.5, 1.0, 1.0, 0.0,
-		0.5, -0.5, -0.5, 1.0, 1.0, 0.0,
-
-		//left ACC' + AA'C'
-		-0.5, 0.5,  -0.5, 1.0, 0.0, 1.0,
-		-0.5, -0.5, -0.5, 1.0, 0.0, 1.0,
-		-0.5, -0.5, 0.5,  1.0, 0.0, 1.0,
-
-		-0.5, 0.5,  -0.5, 1.0, 0.0, 1.0,
-		-0.5, 0.5,  0.5,  1.0, 0.0, 1.0,
-		-0.5, -0.5, 0.5,  1.0, 0.0, 1.0,
-
-		//right BDD' + BB'D'
-		0.5,  0.5, -0.5, 0.0, 0.0, 1.0,
-		0.5, -0.5, -0.5, 0.0, 0.0, 1.0,
-		0.5, -0.5, 0.5,  0.0, 0.0, 1.0,
-
-		0.5, 0.5, -0.5, 0.0, 0.0, 1.0,
-		0.5, 0.5, 0.5,  0.0, 0.0, 1.0,
-		0.5, -0.5, 0.5, 0.0, 0.0, 1.0,
-
-		//2.0, -1.0,  2.0, 0.0, 0.0, 0.0,
-		//-2.0, -1.0, -2.0, 0.0, 0.0, 0.0,
-		// 2.0, -1.0, -2.0, 0.0, 0.0, 0.0,
-
-		// 2.0, -1.0,  2.0, 0.0, 0.0, 0.0,
-		//-2.0, -1.0,  2.0, 0.0, 0.0, 0.0,
-		//-2.0, -1.0, -2.0, 0.0, 0.0, 0.0,
-	};
-
-	GLuint VBO, VAO;
-
-	glGenBuffers(1, &VBO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
-	glEnableVertexAttribArray(0);
-
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(1);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-
-	return VAO;
-}
-int setupFloorGeometry()
-{
-	GLfloat floor[] = {
-		 2.0, -1.0,  2.0, 0.0, 0.0, 0.0,
-		-2.0, -1.0, -2.0, 0.0, 0.0, 0.0,
-		 2.0, -1.0, -2.0, 0.0, 0.0, 0.0,
-
-		 2.0, -1.0,  2.0, 0.0, 0.0, 0.0,
-		-2.0, -1.0,  2.0, 0.0, 0.0, 0.0,
-		-2.0, -1.0, -2.0, 0.0, 0.0, 0.0,
-	};
-
-	GLuint VBO, VAO;
-
-	glGenBuffers(1, &VBO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(floor), floor, GL_STATIC_DRAW);
-
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
-	glEnableVertexAttribArray(0);
-
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(1);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glBindVertexArray(0);
-
-	return VAO;
-}
-int setupModelGeometry(Model threeDimensionalModel) {
-
-	if (debugging)
-	{
-		printf("Number of vertices %d | Number of triangles %d | Number of squares %d \n",
-			threeDimensionalModel.getVertices().size(),
-			threeDimensionalModel.getVertices().size() / 3,
-			threeDimensionalModel.getVertices().size() / 6);
-
-		for (int i = 0; i < threeDimensionalModel.getVertices().size(); ++i) {
-			printf("Vertice x: %f y: %f z: %f \n", threeDimensionalModel.getVertices()[i].x, threeDimensionalModel.getVertices()[i].y, threeDimensionalModel.getVertices()[i].z);
-		}
-
-		for (int i = 0; i < threeDimensionalModel.getUvs().size(); ++i) {
-			printf("Uvs x: %f y: %f  \n", threeDimensionalModel.getUvs()[i].x, threeDimensionalModel.getUvs()[i].y);
-		}
-
-		for (int i = 0; i < threeDimensionalModel.getNormals().size(); ++i) {
-			printf("Normal x: %f y: %f z: %f  \n", threeDimensionalModel.getNormals()[i].x, threeDimensionalModel.getNormals()[i].y, threeDimensionalModel.getNormals()[i].z);
-		}
-	}
-
-	GLuint VBO, VAO;
-
-	glGenBuffers(1, &VBO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, 
-		threeDimensionalModel.getVertices().size() * sizeof(glm::vec3), 
-		//&threeDimensionalModel.getVertices()[0], 
-		threeDimensionalModel.getVertices().data(),
-		GL_STATIC_DRAW);
-
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-
-	//Atributo posição (x, y, z)
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
-
-	//Atributo cor (r, g, b)
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	glBindVertexArray(0);
-
-	return VAO;
 }
