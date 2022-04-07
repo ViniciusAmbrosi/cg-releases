@@ -13,6 +13,24 @@
 #include "ScrollCallback.h"
 #include "MouseCallback.h"
 
+const GLuint WIDTH = 1000, HEIGHT = 1000;
+
+Scroll scroll = Scroll(45.0);
+Mouse mouse = Mouse(WIDTH, HEIGHT);
+Keyboard keyboard = Keyboard();
+
+Program setupProgram()
+{
+	Shader vertexShaderSource = Shader("Resources/ShaderFiles/vertexShader.vs", GL_VERTEX_SHADER);
+	Shader fragmentShaderSource = Shader("Resources/ShaderFiles/fragmentShader.fs", GL_FRAGMENT_SHADER);
+
+	return Program(vertexShaderSource, fragmentShaderSource);
+}
+
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 5.0f);
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	scroll.HandleScrollCallback(yoffset);
@@ -30,24 +48,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 	keyboard.HandleKeyboardCallback(key, action, cameraPos, cameraFront, cameraUp);
 }
-
-Program setupProgram()
-{
-	Shader vertexShaderSource = Shader("Resources/ShaderFiles/vertexShader.vs", GL_VERTEX_SHADER);
-	Shader fragmentShaderSource = Shader("Resources/ShaderFiles/fragmentShader.fs", GL_FRAGMENT_SHADER);
-
-	return Program(vertexShaderSource, fragmentShaderSource);
-}
-
-const GLuint WIDTH = 1000, HEIGHT = 1000;
-
-Scroll scroll = Scroll(45.0);
-Mouse mouse = Mouse(WIDTH, HEIGHT);
-Keyboard keyboard = Keyboard();
-
-glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 5.0f);
-glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 int main()
 {
