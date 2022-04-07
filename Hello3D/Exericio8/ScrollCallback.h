@@ -2,14 +2,30 @@
 
 #include <GLFW/glfw3.h>
 
-float fov = 45.0;
-
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+class Scroll
 {
-	if (fov >= 1.0f && fov <= 45.0f)
-		fov -= yoffset;
-	if (fov <= 1.0f)
-		fov = 1.0f;
-	if (fov >= 45.0f)
-		fov = 45.0f;
-}
+public:
+
+	Scroll(float fov)
+	{
+		Fov = fov;
+	}
+
+	float GetFov()
+	{
+		return Fov;
+	}
+
+	void HandleScrollCallback(double& yoffset)
+	{
+		if (Fov >= 1.0f && Fov <= 45.0f)
+			Fov -= yoffset;
+		if (Fov <= 1.0f)
+			Fov = 1.0f;
+		if (Fov >= 45.0f)
+			Fov = 45.0f;
+	}
+
+private:
+	float Fov;
+};
