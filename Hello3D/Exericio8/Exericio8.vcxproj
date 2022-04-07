@@ -156,9 +156,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Geometry.h" />
+    <ClInclude Include="KeyboardCallback.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="MouseCallback.h" />
     <ClInclude Include="Program.h" />
+    <ClInclude Include="ScrollCallback.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Vectors.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ShaderFiles\fragmentShader.fs" />

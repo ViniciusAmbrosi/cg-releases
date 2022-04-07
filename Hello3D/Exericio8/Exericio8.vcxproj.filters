@@ -31,6 +31,12 @@
     <Filter Include="Arquivos de Origem\Geometry">
       <UniqueIdentifier>{31e517a5-dfbb-4d56-9bf0-2e0e5da3a274}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Arquivos de Origem\Vectors">
+      <UniqueIdentifier>{f8e2b3bd-707f-4d9a-b7c4-7c3f5a29ab66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\Callbacks">
+      <UniqueIdentifier>{7c154a9e-f965-4c6b-b1de-a99042ec821d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Origem.cpp">
@@ -64,6 +70,18 @@
     </ClInclude>
     <ClInclude Include="Geometry.h">
       <Filter>Arquivos de Origem\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Vectors.h">
+      <Filter>Arquivos de Origem\Vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseCallback.h">
+      <Filter>Arquivos de Origem\Callbacks</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardCallback.h">
+      <Filter>Arquivos de Origem\Callbacks</Filter>
+    </ClInclude>
+    <ClInclude Include="ScrollCallback.h">
+      <Filter>Arquivos de Origem\Callbacks</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

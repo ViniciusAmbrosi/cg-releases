@@ -3,87 +3,24 @@
 #define _CRT_SECURE_NO_DEPRECATE
 #define _CRT_SECURE_NO_WARNINGS
 
+#include "Vectors.h"
 #include "Model.cpp"
 #include "Program.cpp"
 #include "Shader.cpp"
 #include "Geometry.cpp"
 
 #include <string>
-#include <assert.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "KeyboardCallback.h"
+
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-
-std::vector <GLfloat> FloorVector = {
-	 2.0, -1.0,  2.0, 0.0, 0.0, 0.0,
-	-2.0, -1.0, -2.0, 0.0, 0.0, 0.0,
-	 2.0, -1.0, -2.0, 0.0, 0.0, 0.0,
-
-	 2.0, -1.0,  2.0, 0.0, 0.0, 0.0,
-	-2.0, -1.0,  2.0, 0.0, 0.0, 0.0,
-	-2.0, -1.0, -2.0, 0.0, 0.0, 0.0,
-};
-std::vector <GLfloat> CubeVector = {
-	//bottom CDC' + DD'C'
-	-0.5, -0.5, -0.5, 0.0, 0.0, 0.0,
-	-0.5, -0.5,  0.5, 0.0, 0.0, 0.0,
-	0.5, -0.5, -0.5,  0.0, 0.0, 0.0,
-
-	-0.5, -0.5,  0.5, 0.0, 0.0, 0.0,
-	0.5, -0.5,  0.5,  0.0, 0.0, 0.0,
-	0.5, -0.5, -0.5,  0.0, 0.0, 0.0,
-
-	//top ABA' + BB'A'
-	-0.5, 0.5, -0.5, 1.0, 0.0, 0.0,
-	-0.5, 0.5,  0.5, 1.0, 0.0, 0.0,
-	0.5, 0.5, -0.5,  1.0, 0.0, 0.0,
-
-	-0.5, 0.5,  0.5, 1.0, 0.0, 0.0,
-	0.5, 0.5,  0.5,  1.0, 0.0, 0.0,
-	0.5, 0.5, -0.5,  1.0, 0.0, 0.0,
-
-	//front ABC + BCA
-	-0.5,  0.5, 0.5, 0.0, 1.0, 0.0,
-	-0.5, -0.5, 0.5, 0.0, 1.0, 0.0,
-	0.5, -0.5, 0.5,  0.0, 1.0, 0.0,
-
-	-0.5,  0.5, 0.5, 0.0, 1.0, 0.0,
-	0.5,  0.5, 0.5,  0.0, 1.0, 0.0,
-	0.5, -0.5, 0.5,  0.0, 1.0, 0.0,
-
-	//back A'B'C' + B'C'A'
-	-0.5,  0.5, -0.5, 1.0, 1.0, 0.0,
-	-0.5, -0.5, -0.5, 1.0, 1.0, 0.0,
-	0.5, -0.5, -0.5,  1.0, 1.0, 0.0,
-
-	-0.5, 0.5, -0.5, 1.0, 1.0, 0.0,
-	0.5,  0.5, -0.5, 1.0, 1.0, 0.0,
-	0.5, -0.5, -0.5, 1.0, 1.0, 0.0,
-
-	//left ACC' + AA'C'
-	-0.5, 0.5,  -0.5, 1.0, 0.0, 1.0,
-	-0.5, -0.5, -0.5, 1.0, 0.0, 1.0,
-	-0.5, -0.5, 0.5,  1.0, 0.0, 1.0,
-
-	-0.5, 0.5,  -0.5, 1.0, 0.0, 1.0,
-	-0.5, 0.5,  0.5,  1.0, 0.0, 1.0,
-	-0.5, -0.5, 0.5,  1.0, 0.0, 1.0,
-
-	//right BDD' + BB'D'
-	0.5,  0.5, -0.5, 0.0, 0.0, 1.0,
-	0.5, -0.5, -0.5, 0.0, 0.0, 1.0,
-	0.5, -0.5, 0.5,  0.0, 0.0, 1.0,
-
-	0.5, 0.5, -0.5, 0.0, 0.0, 1.0,
-	0.5, 0.5, 0.5,  0.0, 0.0, 1.0,
-	0.5, -0.5, 0.5, 0.0, 0.0, 1.0,
-};
 
 Program setupProgram()
 {
@@ -94,9 +31,6 @@ Program setupProgram()
 }
 
 const GLuint WIDTH = 1000, HEIGHT = 1000;
-
-bool rotateX = false, rotateY = false, rotateZ = false, rotateLeft = false, rotateRight = false, rotateUp = false, rotateDown = false;
-bool front = false, back = false, left = false, right = false, top = false, shouldMove = true;
 
 float deltaTime = 0.0f;	// Time between current frame and last frame
 float lastFrame = 0.0f; // Time of last frame
@@ -139,10 +73,10 @@ int main()
 	Model malePikachu = Model("Resources/Models/Pokemon/Pikachu.obj", 2, 0);
 	Model femalePikachu = Model("Resources/Models/Pokemon/PikachuF.obj", 18, 2);
 	
-	Geometry VAO_BASIC_CUBE = program.SetupGeometryForArray(CubeVector);
-	Geometry VAO_BASIC_FLOOR = program.SetupGeometryForArray(FloorVector);
-	Geometry VAO_MALE_PIKACHU = program.SetupGeometryForModel(malePikachu);
-	Geometry VAO_FEMALE_PIKACHU = program.SetupGeometryForModel(femalePikachu);
+	Geometry CubeGeometry = program.SetupGeometryForArray(CubeVector);
+	Geometry FloorGeometry = program.SetupGeometryForArray(FloorVector);
+	Geometry PikachuGeometry = program.SetupGeometryForModel(malePikachu);
+	Geometry FemalePikachuGeometry = program.SetupGeometryForModel(femalePikachu);
 
 	glUseProgram(program.GetProgram());
 
@@ -181,19 +115,19 @@ int main()
 		float angle = (GLfloat)glfwGetTime();
 
 		model = glm::mat4(1);
-		if (rotateX && rotateUp)
+		if (moveDirection == MoveDirection::Up)
 		{
 			model = glm::rotate(model, angle, glm::vec3(1.0f, 0.0f, 0.0f));
 		}
-		else if (rotateX && rotateDown)
+		else if (moveDirection == MoveDirection::Down)
 		{
 			model = glm::rotate(model, angle, glm::vec3(-1.0f, 0.0f, 0.0f));
 		}
-		else if (rotateY && rotateLeft)
+		else if (moveDirection == MoveDirection::Left)
 		{
 			model = glm::rotate(model, angle, glm::vec3(0.0f, 1.0f, 0.0f));
 		}
-		else if (rotateY && rotateRight)
+		else if (moveDirection == MoveDirection::Right)
 		{
 			model = glm::rotate(model, angle, glm::vec3(0.0f, -1.0f, 0.0f));
 		}
@@ -217,14 +151,7 @@ int main()
 }
 
 void resetMovement() {
-	rotateX = false;
-	rotateY = false;
-	rotateZ = false;
-
-	rotateUp = false;
-	rotateDown = false;
-	rotateLeft = false;
-	rotateRight = false;
+	moveDirection = MoveDirection::Idle;
 }
 void resetEverything() {
 	resetMovement();
@@ -233,6 +160,7 @@ void resetEverything() {
 	cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 	cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 }
+
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	if (fov >= 1.0f && fov <= 45.0f)
@@ -276,96 +204,10 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 }
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
-	float cameraSpeed = 200.0f * deltaTime;
-
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+	{
 		glfwSetWindowShouldClose(window, GL_TRUE);
-
-	if (key == GLFW_KEY_UP && action == GLFW_PRESS)
-	{
-		resetMovement();
-
-		rotateX = true;
-		rotateUp = true;
 	}
-	if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
-	{
-		resetMovement();
-
-		rotateX = true;
-		rotateDown = true;
-	}
-	if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
-	{
-		resetMovement();
-
-		rotateY = true;
-		rotateLeft = true;
-	}
-	if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
-	{
-		resetMovement();
-
-		rotateY = true;
-		rotateRight = true;
-	}
-
-	if (key == GLFW_KEY_W && action != GLFW_RELEASE)
-	{
-		cameraPos += cameraSpeed * cameraFront;
-	}
-	if (key == GLFW_KEY_S && action != GLFW_RELEASE)
-	{
-		cameraPos -= cameraSpeed * cameraFront;
-	}
-	if (key == GLFW_KEY_A && action != GLFW_RELEASE)
-	{
-		cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-	}
-	if (key == GLFW_KEY_D && action != GLFW_RELEASE)
-	{
-		cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-	}
-
-	//front - GREEN
-	if (key == GLFW_KEY_1 && action == GLFW_PRESS)
-	{
-		cameraPos = glm::vec3(0.0f, 0.0f, 5.0f); // distance from the block
-		cameraFront = glm::vec3(0.0f, 0.0f, -1.0f); // where the camera is looking to
-		cameraUp = glm::vec3(0.0f, 1.0f, 0.0f); // what is the "top" of the camera
-	}
-	//back - YELLOW
-	if (key == GLFW_KEY_2 && action == GLFW_PRESS)
-	{
-		cameraPos = glm::vec3(0.0f, 0.0f, -5.0f); // distance from the block
-		cameraFront = glm::vec3(0.0f, 0.0f, 4.0f); // where the camera is looking to
-		cameraUp = glm::vec3(0.0f, 1.0f, 0.0f); // what is the "top" of the camera
-	}
-	//left - PINK
-	if (key == GLFW_KEY_3 && action == GLFW_PRESS)
-	{
-		cameraPos = glm::vec3(-5.0f, 0.0f, 0.0f); // distance from the block
-		cameraFront = glm::vec3(1.0f, 0.0f, 0.0f); // where the camera is looking to
-		cameraUp = glm::vec3(0.0f, 1.0f, 0.0f); // what is the "top" of the camera
-	}
-	//right - BLUE
-	if (key == GLFW_KEY_4 && action == GLFW_PRESS)
-	{
-		cameraPos = glm::vec3(5.0f, 0.0f, 0.0f); // distance from the block
-		cameraFront = glm::vec3(-4.0f, 0.0f, 0.0f); // where the camera is looking to
-		cameraUp = glm::vec3(0.0f, 1.0f, 0.0f); // what is the "top" of the camera
-	}
-	//top - RED
-	if (key == GLFW_KEY_5 && action == GLFW_PRESS)
-	{
-		cameraPos = glm::vec3(0.0f, 5.0f, 0.0f); // distance from the block
-		cameraFront = glm::vec3(0.0f, -4.0f, 0.0f); // what is the "top" of the camera
-		cameraUp = glm::vec3(1.0f, 0.0f, 0.0f); // what is the "top" of the camera
-	}
-
-	//reset every movement
-	if (key == GLFW_KEY_0 && action == GLFW_PRESS)
-	{
-		resetEverything();
-	}
+	
+	HandleKeyboardCallback(key, action, deltaTime, cameraPos, cameraFront, cameraUp, moveDirection);
 }
