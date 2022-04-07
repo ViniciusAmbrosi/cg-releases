@@ -2,6 +2,7 @@
 
 #define _CRT_SECURE_NO_DEPRECATE
 
+#include <algorithm>
 #include <stdio.h>
 #include <string>
 #include <vector>
@@ -16,7 +17,7 @@ public:
 	std::vector < glm::vec2 > uvs;
 	std::vector < glm::vec3 > normals;
 
-	Model(const char* path)
+	Model(const char* path, int sizeFactor, int xDeslocation)
 	{
 		std::vector< unsigned int > vertexIndices, uvIndices, normalIndices;
 		std::vector< glm::vec3 > temp_vertices;
@@ -41,16 +42,31 @@ public:
 			if (strcmp(lineHeader, "v") == 0) {
 				glm::vec3 vertex;
 				fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
+
+				vertex.x = (vertex.x / sizeFactor) + xDeslocation;
+				vertex.y = vertex.y	/ sizeFactor;
+				vertex.z = vertex.z / sizeFactor;
+
 				temp_vertices.push_back(vertex);
 			}
 			else if (strcmp(lineHeader, "vt") == 0) {
 				glm::vec2 uv;
 				fscanf(file, "%f %f\n", &uv.x, &uv.y);
+
+				uv.x = (uv.x / sizeFactor) + xDeslocation;
+				uv.y = uv.y / sizeFactor;
+
 				temp_uvs.push_back(uv);
 			}
 			else if (strcmp(lineHeader, "vn") == 0) {
 				glm::vec3 normal;
+
 				fscanf(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z);
+
+				normal.x = (normal.x / sizeFactor) + xDeslocation;
+				normal.y = normal.y / sizeFactor;
+				normal.z = normal.z / sizeFactor;
+
 				temp_normals.push_back(normal);
 			}
 			else if (strcmp(lineHeader, "f") == 0) {

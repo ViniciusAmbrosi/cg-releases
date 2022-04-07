@@ -110,12 +110,6 @@ glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 5.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
-//void drawElement(GLuint vao, int size) {
-//	glBindTexture(GL_TEXTURE_2D, 0);
-//	glBindVertexArray(vao);
-//	glDrawArrays(GL_TRIANGLES, 0, size * 3);
-//}
-
 int main()
 {
 	glfwInit();
@@ -141,9 +135,9 @@ int main()
 
 	Program program = setupProgram();
 
-	Model cube = Model("Resources/Models/Cube/cube.obj");
-	Model malePikachu = Model("Resources/Models/Pokemon/Pikachu.obj");
-	Model femalePikachu = Model("Resources/Models/Pokemon/PikachuF.obj");
+	Model cube = Model("Resources/Models/Cube/cube.obj", 1, 0);
+	Model malePikachu = Model("Resources/Models/Pokemon/Pikachu.obj", 2, 0);
+	Model femalePikachu = Model("Resources/Models/Pokemon/PikachuF.obj", 18, 2);
 	
 	Geometry VAO_BASIC_CUBE = program.SetupGeometryForArray(CubeVector);
 	Geometry VAO_BASIC_FLOOR = program.SetupGeometryForArray(FloorVector);
