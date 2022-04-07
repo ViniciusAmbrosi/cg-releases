@@ -83,6 +83,9 @@
     <ClInclude Include="ScrollCallback.h">
       <Filter>Arquivos de Origem\Callbacks</Filter>
     </ClInclude>
+    <ClInclude Include="CallbackHandler.h">
+      <Filter>Arquivos de Origem\Callbacks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ShaderFiles\vertexShader.vs">

@@ -9,15 +9,11 @@
 #include "Shader.cpp"
 #include "Geometry.cpp"
 
-#include "KeyboardCallback.h"
-#include "ScrollCallback.h"
-#include "MouseCallback.h"
+#include "CallbackHandler.h"
 
 const GLuint WIDTH = 1000, HEIGHT = 1000;
 
-Scroll scroll = Scroll(45.0);
-Mouse mouse = Mouse(WIDTH, HEIGHT);
-Keyboard keyboard = Keyboard();
+CallbackHandler callbackHandler = CallbackHandler(45.0, WIDTH, HEIGHT);
 
 Program setupProgram()
 {
@@ -31,22 +27,22 @@ glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 5.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 {
-	scroll.HandleScrollCallback(yoffset);
+	callbackHandler.scrollHandler.HandleScrollCallback(yoffset);
 }
-void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+void MouseCallback(GLFWwindow* window, double xpos, double ypos)
 {
-	mouse.HandleMouseCallback(xpos, ypos, cameraFront);
+	callbackHandler.mouseHandler.HandleMouseCallback(xpos, ypos, cameraFront);
 }
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
+void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 	{
 		glfwSetWindowShouldClose(window, GL_TRUE);
 	}
 
-	keyboard.HandleKeyboardCallback(key, action, cameraPos, cameraFront, cameraUp);
+	callbackHandler.keyboardHandler.HandleKeyboardCallback(key, action, cameraPos, cameraFront, cameraUp);
 }
 
 int main()
@@ -56,9 +52,9 @@ int main()
 	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Computação Gráfica", nullptr, nullptr);
 	glfwMakeContextCurrent(window);
 
-	glfwSetKeyCallback(window, key_callback);
-	glfwSetCursorPosCallback(window, mouse_callback);
-	glfwSetScrollCallback(window, scroll_callback);
+	glfwSetKeyCallback(window, KeyCallback);
+	glfwSetCursorPosCallback(window, MouseCallback);
+	glfwSetScrollCallback(window, ScrollCallback);
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GLFW_TRUE);
@@ -94,7 +90,7 @@ int main()
 	glm::mat4 projection;
 	GLint projLoc = glGetUniformLocation(program.GetProgram(), "projection");
 
-	projection = glm::perspective(glm::radians(scroll.GetFov()), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
+	projection = glm::perspective(glm::radians(callbackHandler.scrollHandler.GetFov()), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
 
 	model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
@@ -105,7 +101,7 @@ int main()
 
 	while (!glfwWindowShouldClose(window))
 	{
-		keyboard.UpdateDelta();
+		callbackHandler.keyboardHandler.UpdateDelta();
 
 		glfwPollEvents();
 
@@ -115,10 +111,10 @@ int main()
 		glLineWidth(10);
 		glPointSize(20);
 
-		keyboard.HandleModelRotation(model);
+		callbackHandler.keyboardHandler.HandleModelRotation(model);
 
 		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-		projection = glm::perspective(glm::radians(scroll.GetFov()), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
+		projection = glm::perspective(glm::radians(callbackHandler.scrollHandler.GetFov()), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
 
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
