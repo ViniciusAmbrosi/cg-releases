@@ -38,22 +38,6 @@ public:
 		glDeleteShader(fragmentShader.GetShader());
 	}
 
-	void DrawAllGeometries()
-	{
-		for (Geometry geometry : Geometries)
-		{
-			geometry.DrawElements();
-		}
-	}
-
-	void DeleteAllGeometries()
-	{
-		for (Geometry geometry : Geometries)
-		{
-			geometry.DeleteElements();
-		}
-	}
-
 	Geometry SetupGeometryForModel(Model model)
 	{
 		DisplayModelProperties(model);
@@ -118,6 +102,27 @@ public:
 		Geometries.push_back(newGeometry);
 
 		return newGeometry;
+	}
+
+	void DrawAllGeometries()
+	{
+		for (Geometry geometry : Geometries)
+		{
+			geometry.DrawElements();
+		}
+	}
+
+	void DeleteAllGeometries()
+	{
+		for (Geometry geometry : Geometries)
+		{
+			geometry.DeleteElements();
+		}
+	}
+
+	std::vector <Geometry> GetGeometries()
+	{
+		return Geometries;
 	}
 
 	const GLuint GetProgram()
