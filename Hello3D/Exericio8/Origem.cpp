@@ -71,8 +71,8 @@ int main()
 	Program program = setupProgram();
 
 	//Model cube = Model("Resources/Models/Cube/cube.obj", 1, 0);
-	Model malePikachu = Model("Resources/Models/Pokemon/Pikachu.obj", 2, 0);
-	Model femalePikachu = Model("Resources/Models/Pokemon/PikachuF.obj", 18, 2);
+	Model malePikachu = Model("Resources/Models/Pokemon/Pikachu.obj", 2, 0, glm::vec3(1.0f,1.0f,0.0f));
+	Model femalePikachu = Model("Resources/Models/Pokemon/PikachuF.obj", 18, 2, glm::vec3(0.8f, 0.8f, 0.0f));
 	
 	//Geometry CubeGeometry = program.SetupGeometryForArray(CubeVector);
 	//Geometry FloorGeometry = program.SetupGeometryForArray(FloorVector);

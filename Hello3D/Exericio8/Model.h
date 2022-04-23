@@ -17,7 +17,7 @@ public:
 	std::vector < glm::vec2 > uvs;
 	std::vector < glm::vec3 > normals;
 
-	Model(const char* path, int sizeFactor, int xDeslocation)
+	Model(const char* path, int sizeFactor, int xDeslocation, glm::vec3 color)
 	{
 		std::vector< unsigned int > vertexIndices, uvIndices, normalIndices;
 		std::vector< glm::vec3 > temp_vertices;
@@ -95,6 +95,7 @@ public:
 			unsigned int vertexIndex = vertexIndices[i];
 			glm::vec3 vertex = temp_vertices[vertexIndex - 1];
 			vertices.push_back(vertex);
+			vertices.push_back(color);
 		}
 
 		for (unsigned int i = 0; i < uvIndices.size(); i++) {
