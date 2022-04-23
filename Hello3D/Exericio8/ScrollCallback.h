@@ -6,6 +6,12 @@ class Scroll
 {
 public:
 
+	Scroll()
+	{
+		Fov = 45.0;
+	}
+
+
 	Scroll(float fov)
 	{
 		Fov = fov;

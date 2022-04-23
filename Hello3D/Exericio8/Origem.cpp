@@ -70,16 +70,19 @@ int main()
 
 	Program program = setupProgram();
 
-	Model cube = Model("Resources/Models/Cube/cube.obj", 1, 0);
+	//Model cube = Model("Resources/Models/Cube/cube.obj", 1, 0);
 	Model malePikachu = Model("Resources/Models/Pokemon/Pikachu.obj", 2, 0);
 	Model femalePikachu = Model("Resources/Models/Pokemon/PikachuF.obj", 18, 2);
 	
-	Geometry CubeGeometry = program.SetupGeometryForArray(CubeVector);
-	Geometry FloorGeometry = program.SetupGeometryForArray(FloorVector);
+	//Geometry CubeGeometry = program.SetupGeometryForArray(CubeVector);
+	//Geometry FloorGeometry = program.SetupGeometryForArray(FloorVector);
 	Geometry PikachuGeometry = program.SetupGeometryForModel(malePikachu);
 	Geometry FemalePikachuGeometry = program.SetupGeometryForModel(femalePikachu);
 
 	glUseProgram(program.GetProgram());
+
+	GLint objectColorLoc = glGetUniformLocation(program.GetProgram(), "objectColor");
+	glUniform3f(objectColorLoc, 1.0f, 1.0f, 0.0f);
 
 	glm::mat4 model = glm::mat4(1); 
 	GLint modelLoc = glGetUniformLocation(program.GetProgram(), "model");

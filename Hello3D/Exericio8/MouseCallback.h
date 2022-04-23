@@ -9,6 +9,10 @@ class Mouse
 {
 public:
 
+	Mouse()
+	{
+	}
+
 	Mouse(GLuint width, GLuint height)
 	{
 		lastX = width / 2.0;
