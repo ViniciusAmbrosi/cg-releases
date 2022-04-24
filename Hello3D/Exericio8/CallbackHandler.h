@@ -18,10 +18,11 @@ public:
 		keyboardHandler = Keyboard();
 	}
 
-	void HandleAllKeyboardActions(glm::mat4& model)
+	void HandleAllKeyboardActions(glm::mat4& model, std::vector< Geometry >& geometries)
 	{ 
 		keyboardHandler.HandleModelRotation(model);
 		keyboardHandler.HandleModelTranslation(model);
 		keyboardHandler.HandleModelScale(model);
+		keyboardHandler.HandleModelScale(model, geometries);
 	}
 };

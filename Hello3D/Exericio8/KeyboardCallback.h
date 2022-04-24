@@ -101,6 +101,12 @@ public:
 			SetScale(ScaleAction::ScaleDown);
 		}
 
+		//trigger select
+		if (key == GLFW_KEY_TAB && action != GLFW_RELEASE)
+		{
+			attemptToSelectGeometry = true;
+		}
+
 		//camera movement
 		if (key == GLFW_KEY_W && action != GLFW_RELEASE)
 		{
@@ -238,9 +244,30 @@ public:
 		}
 	}
 
+	void HandleModelScale(glm::mat4& model, std::vector<Geometry>& geometries)
+	{
+		if (attemptToSelectGeometry)
+		{
+			for (Geometry& geometry : geometries)
+			{
+				geometry.selected = false;
+			}
+
+			if (selectedElement > geometries.size() - 1) {
+				selectedElement = 0;
+			}
+
+			geometries[selectedElement++].selected = true;
+
+			attemptToSelectGeometry = false;
+		}
+	}
+
 private:
 	MoveDirection moveDirection = MoveDirection::Idle;
 	ScaleAction scaleAction = ScaleAction::None;
+	bool attemptToSelectGeometry = false;
+	int selectedElement = 0;
 
 	float deltaTime = 0.0f;	// Time between current frame and last frame
 	float lastFrame = 0.0f; // Time of last frame

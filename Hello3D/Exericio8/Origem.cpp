@@ -114,7 +114,7 @@ int main()
 		glLineWidth(10);
 		glPointSize(20);
 
-		callbackHandler.HandleAllKeyboardActions(model);
+		callbackHandler.HandleAllKeyboardActions(model, program.Geometries);
 
 		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 		projection = glm::perspective(glm::radians(callbackHandler.scrollHandler.GetFov()), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
