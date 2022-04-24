@@ -8,12 +8,14 @@ public:
 	GLuint VAO;
 	GLuint VBO;
 	int Triangles;
+	bool selected;
 
 	Geometry(GLuint vao, GLuint vbo, int triangles)
 	{
 		VAO = vao;
 		VBO = vbo;
 		Triangles = triangles;
+		selected = false;
 	}
 
 	void DrawElements()

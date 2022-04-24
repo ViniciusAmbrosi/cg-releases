@@ -18,7 +18,7 @@ public:
 		keyboardHandler = Keyboard();
 	}
 
-	void HandleAllKeyboardActions(glm::mat4 model) 
+	void HandleAllKeyboardActions(glm::mat4& model)
 	{ 
 		keyboardHandler.HandleModelRotation(model);
 		keyboardHandler.HandleModelTranslation(model);
