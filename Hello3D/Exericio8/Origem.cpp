@@ -31,10 +31,12 @@ void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	callbackHandler.scrollHandler.HandleScrollCallback(yoffset);
 }
+
 void MouseCallback(GLFWwindow* window, double xpos, double ypos)
 {
 	callbackHandler.mouseHandler.HandleMouseCallback(xpos, ypos, cameraFront);
 }
+
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
@@ -82,20 +84,20 @@ int main()
 	glUseProgram(program.GetProgram());
 
 	glm::mat4 model = glm::mat4(1); 
-	GLint modelLoc = glGetUniformLocation(program.GetProgram(), "model");
+	GLint modelLocation = glGetUniformLocation(program.GetProgram(), "model");
 
 	glm::mat4 view;
-	GLint viewLoc = glGetUniformLocation(program.GetProgram(), "view");
+	GLint viewLocation = glGetUniformLocation(program.GetProgram(), "view");
 
 	glm::mat4 projection;
-	GLint projLoc = glGetUniformLocation(program.GetProgram(), "projection");
+	GLint projLocation = glGetUniformLocation(program.GetProgram(), "projection");
 
 	projection = glm::perspective(glm::radians(callbackHandler.scrollHandler.GetFov()), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
 
 	model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+	glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
+	glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
+	glUniformMatrix4fv(projLocation, 1, GL_FALSE, glm::value_ptr(projection));
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -112,15 +114,18 @@ int main()
 		glLineWidth(10);
 		glPointSize(20);
 
+		//callbackHandler.HandleAllKeyboardActions(model);
+
 		callbackHandler.keyboardHandler.HandleModelRotation(model);
 		callbackHandler.keyboardHandler.HandleModelTranslation(model);
+		callbackHandler.keyboardHandler.HandleModelScale(model);
 
 		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 		projection = glm::perspective(glm::radians(callbackHandler.scrollHandler.GetFov()), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
 
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+		glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
+		glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
+		glUniformMatrix4fv(projLocation, 1, GL_FALSE, glm::value_ptr(projection));
 
 		program.DrawAllGeometries();
 

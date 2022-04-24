@@ -17,4 +17,11 @@ public:
 		mouseHandler = Mouse(width, height);
 		keyboardHandler = Keyboard();
 	}
+
+	void HandleAllKeyboardActions(glm::mat4 model) 
+	{ 
+		keyboardHandler.HandleModelRotation(model);
+		keyboardHandler.HandleModelTranslation(model);
+		keyboardHandler.HandleModelScale(model);
+	}
 };

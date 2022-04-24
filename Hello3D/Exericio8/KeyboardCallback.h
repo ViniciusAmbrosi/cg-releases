@@ -19,7 +19,12 @@ enum class MoveDirection {
 	TranslateYNegative, //right
 	TranslateZPositive, //left diagonal
 	TranslateZNegative, //right diagonal
+};
 
+enum class ScaleAction {
+	None,
+	ScaleUp,
+	ScaleDown,
 };
 
 class Keyboard
@@ -34,6 +39,7 @@ public:
 	{
 		float cameraSpeed = 30.0f * deltaTime;
 
+		//rotation
 		if (key == GLFW_KEY_UP && action == GLFW_PRESS)
 		{
 			SetMovement(MoveDirection::RotateXPositive);
@@ -59,6 +65,7 @@ public:
 			SetMovement(MoveDirection::RotateZNegative);
 		}
 		
+		//translation
 		if (key == GLFW_KEY_I && action == GLFW_PRESS)
 		{
 			SetMovement(MoveDirection::TranslateYPositive);
@@ -84,6 +91,17 @@ public:
 			SetMovement(MoveDirection::TranslateZNegative);
 		}
 
+		//scale up or down
+		if (key == GLFW_KEY_PAGE_UP && action == GLFW_PRESS)
+		{
+			SetScale(ScaleAction::ScaleUp);
+		}
+		else if (key == GLFW_KEY_PAGE_DOWN && action == GLFW_PRESS)
+		{
+			SetScale(ScaleAction::ScaleDown);
+		}
+
+		//camera movement
 		if (key == GLFW_KEY_W && action != GLFW_RELEASE)
 		{
 			cameraPos += cameraSpeed * cameraFront;
@@ -136,7 +154,6 @@ public:
 			cameraFront = glm::vec3(0.0f, -4.0f, 0.0f); // what is the "top" of the camera
 			cameraUp = glm::vec3(1.0f, 0.0f, 0.0f); // what is the "top" of the camera
 		}
-
 		//reset every movement
 		else if (key == GLFW_KEY_0 && action == GLFW_PRESS)
 		{
@@ -206,8 +223,24 @@ public:
 			model = glm::translate(model, glm::vec3(0.0f, 0.0f, -movementRate));
 		}
 	}
+
+	void HandleModelScale(glm::mat4& model)
+	{
+		if (scaleAction == ScaleAction::ScaleUp)
+		{
+			model = glm::scale(model, glm::vec3(1.5f, 1.5f, 1.5f));
+			SetScale(ScaleAction::None);
+		}
+		else if (scaleAction == ScaleAction::ScaleDown)
+		{
+			model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+			SetScale(ScaleAction::None);
+		}
+	}
+
 private:
 	MoveDirection moveDirection = MoveDirection::Idle;
+	ScaleAction scaleAction = ScaleAction::None;
 
 	float deltaTime = 0.0f;	// Time between current frame and last frame
 	float lastFrame = 0.0f; // Time of last frame
@@ -219,6 +252,7 @@ private:
 		glm::vec3& cameraUp)
 	{
 		SetMovement(MoveDirection::Idle);
+		SetScale(ScaleAction::None);
 
 		cameraPos = glm::vec3(0.0f, 0.0f, 5.0f);
 		cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -229,6 +263,10 @@ private:
 
 	void SetMovement(MoveDirection moveDirectionParam) {
 		moveDirection = moveDirectionParam;
+	}
+
+	void SetScale(ScaleAction scaleActionParam) {
+		scaleAction = scaleActionParam;
 	}
 };
 
