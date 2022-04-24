@@ -244,20 +244,28 @@ public:
 		}
 	}
 
-	void HandleModelScale(glm::mat4& model, std::vector<Geometry>& geometries)
+	void HandleModelSelection(glm::mat4& model, std::vector<Geometry>& geometries)
 	{
 		if (attemptToSelectGeometry)
 		{
 			for (Geometry& geometry : geometries)
 			{
+				if (geometry.selected) 
+				{
+					geometry.ResetModelColor();
+				}
+
 				geometry.selected = false;
 			}
 
 			if (selectedElement > geometries.size() - 1) {
 				selectedElement = 0;
+				attemptToSelectGeometry = false;
+				return;
 			}
 
-			geometries[selectedElement++].selected = true;
+			geometries[selectedElement].selected = true;
+			geometries[selectedElement++].UpdateGeometryColor();
 
 			attemptToSelectGeometry = false;
 		}

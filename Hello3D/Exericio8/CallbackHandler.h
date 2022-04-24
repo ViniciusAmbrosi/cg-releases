@@ -23,6 +23,6 @@ public:
 		keyboardHandler.HandleModelRotation(model);
 		keyboardHandler.HandleModelTranslation(model);
 		keyboardHandler.HandleModelScale(model);
-		keyboardHandler.HandleModelScale(model, geometries);
+		keyboardHandler.HandleModelSelection(model, geometries);
 	}
 };

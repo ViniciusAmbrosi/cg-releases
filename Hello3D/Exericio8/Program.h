@@ -8,7 +8,7 @@
 #include <glad/glad.h>
 
 #include "Geometry.cpp"
-#include "Model.cpp"
+#include "ObjectModel.cpp"
 #include "Shader.cpp"
 
 using namespace std;
@@ -38,34 +38,12 @@ public:
 		glDeleteShader(fragmentShader.GetShader());
 	}
 
-	Geometry SetupGeometryForModel(Model model)
+	Geometry SetupGeometryForModel(ObjectModel model)
 	{
 		DisplayModelProperties(model);
 
-		GLuint VBO, VAO;
-
-		glGenBuffers(1, &VBO);
-
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER,
-			model.getVertices().size() * sizeof(glm::vec3),
-			model.getVertices().data(),
-			GL_STATIC_DRAW);
-
-		glGenVertexArrays(1, &VAO);
-		glBindVertexArray(VAO);
-
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (void*)0);
-
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (void*) sizeof(glm::vec3));
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		glBindVertexArray(0);
-
-		Geometry newGeometry = Geometry(VAO, VBO, model.getVertices().size() / 3);
+		Geometry newGeometry = Geometry(model.getVertices().size() / 3, model);
+		newGeometry.BindGeometry();
 
 		Geometries.push_back(newGeometry);
 		
@@ -74,30 +52,8 @@ public:
 
 	Geometry SetupGeometryForArray(std::vector <GLfloat> vector)
 	{
-		GLuint VBO, VAO;
-
-		glGenBuffers(1, &VBO);
-
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER,
-			vector.size() * sizeof(GLfloat),
-			vector.data(),
-			GL_STATIC_DRAW);
-
-		glGenVertexArrays(1, &VAO);
-		glBindVertexArray(VAO);
-
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
-
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		glBindVertexArray(0);
-
-		Geometry newGeometry = Geometry(VAO, VBO, vector.size() / 3);
+		Geometry newGeometry = Geometry(vector.size() / 3);
+		newGeometry.BindGeometry();
 
 		Geometries.push_back(newGeometry);
 
@@ -132,7 +88,7 @@ public:
 
 private:
 
-	void DisplayModelProperties(Model model)
+	void DisplayModelProperties(ObjectModel model)
 	{
 		if (debugging)
 		{

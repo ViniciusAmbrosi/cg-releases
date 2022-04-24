@@ -51,7 +51,7 @@
     <ClCompile Include="Program.cpp">
       <Filter>Arquivos de Origem\Program</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
+    <ClCompile Include="ObjectModel.cpp">
       <Filter>Arquivos de Origem\Model</Filter>
     </ClCompile>
     <ClCompile Include="Geometry.cpp">
@@ -65,7 +65,7 @@
     <ClInclude Include="Program.h">
       <Filter>Arquivos de Origem\Program</Filter>
     </ClInclude>
-    <ClInclude Include="Model.h">
+    <ClInclude Include="ObjectModel.h">
       <Filter>Arquivos de Origem\Model</Filter>
     </ClInclude>
     <ClInclude Include="Geometry.h">

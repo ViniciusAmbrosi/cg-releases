@@ -4,7 +4,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include "Vectors.h"
-#include "Model.cpp"
+#include "ObjectModel.cpp"
 #include "Program.cpp"
 #include "Shader.cpp"
 #include "Geometry.cpp"
@@ -73,8 +73,8 @@ int main()
 	Program program = setupProgram();
 
 	//Model cube = Model("Resources/Models/Cube/cube.obj", 1, 0);
-	Model malePikachu = Model("Resources/Models/Pokemon/Pikachu.obj", 2, -1, glm::vec3(1.0f,1.0f,0.0f));
-	Model femalePikachu = Model("Resources/Models/Pokemon/PikachuF.obj", 18, 1, glm::vec3(0.8f, 0.8f, 0.0f));
+	ObjectModel malePikachu = ObjectModel("Resources/Models/Pokemon/Pikachu.obj", 2, -1, glm::vec3(1.0f,1.0f,0.0f));
+	ObjectModel femalePikachu = ObjectModel("Resources/Models/Pokemon/PikachuF.obj", 18, 1, glm::vec3(0.8f, 0.8f, 0.0f));
 	
 	//Geometry CubeGeometry = program.SetupGeometryForArray(CubeVector);
 	//Geometry FloorGeometry = program.SetupGeometryForArray(FloorVector);

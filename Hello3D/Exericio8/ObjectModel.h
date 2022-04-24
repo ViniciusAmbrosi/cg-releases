@@ -10,19 +10,22 @@
 
 using namespace std;
 
-class Model
+class ObjectModel
 {
 public:
 	std::vector < glm::vec3 > vertices;
 	std::vector < glm::vec2 > uvs;
 	std::vector < glm::vec3 > normals;
+	glm::vec3 originalColor;
 
-	Model(const char* path, int sizeFactor, int xDeslocation, glm::vec3 color)
+	ObjectModel() {}
+	ObjectModel(const char* path, int sizeFactor, int xDeslocation, glm::vec3 color)
 	{
 		std::vector< unsigned int > vertexIndices, uvIndices, normalIndices;
 		std::vector< glm::vec3 > temp_vertices;
 		std::vector< glm::vec2 > temp_uvs;
 		std::vector< glm::vec3 > temp_normals;
+		originalColor = color;
 
 		FILE* file = fopen(path, "r");
 		if (file == NULL) {
@@ -44,7 +47,7 @@ public:
 				fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
 
 				vertex.x = (vertex.x / sizeFactor) + xDeslocation;
-				vertex.y = vertex.y	/ sizeFactor;
+				vertex.y = vertex.y / sizeFactor;
 				vertex.z = vertex.z / sizeFactor;
 
 				temp_vertices.push_back(vertex);
@@ -73,7 +76,7 @@ public:
 				std::string vertex1, vertex2, vertex3;
 				unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
 				int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
-				
+
 				if (matches != 9) {
 					printf("File can't be read by our simple parser : ( Try exporting with other options\n");
 					break;
@@ -111,6 +114,16 @@ public:
 		}
 	}
 
+	void UpdateModelColor()
+	{
+		UpdateColor(glm::vec3(0.0f, 0.2f, 1.0f));
+	}
+
+	void ResetColor()
+	{
+		UpdateColor(originalColor);
+	}
+
 	std::vector < glm::vec3 > getVertices() {
 		return vertices;
 	}
@@ -122,5 +135,16 @@ public:
 	std::vector < glm::vec3 > getNormals() {
 		return normals;
 	}
+
+private:
+	void UpdateColor(glm::vec3 color)
+	{
+		for (int i = 1; i <= vertices.size(); i = i + 2)
+		{
+			vertices[i].r = color.r;
+			vertices[i].g = color.g;
+			vertices[i].b = color.b;
+		}
+	};
 };
 
