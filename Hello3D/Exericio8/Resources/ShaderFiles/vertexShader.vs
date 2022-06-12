@@ -1,20 +1,18 @@
 #version 450 core
-
 layout (location = 0) in vec3 position;
-layout (location = 1) in vec3 color;
+layout (location = 1) in vec3 normal;
 
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
-uniform vec3 objectColor;
 
-out vec4 finalColor;
+out vec3 scaledNormal;
+out vec3 fragPos;
 
 void main()
 {
-	//...pode ter mais linhas de código aqui!
-	//gl_Position = model * vec4(position, 1.0); before doing projection
 
-	gl_Position = projection * view * model * vec4(position, 1.0f);
-	finalColor = vec4(color, 1.0);
-};
+    gl_Position = projection * view * model * vec4(position, 1.0f);
+    scaledNormal = normal;//mat3(transpose(inverse(model))) * normal;   
+    fragPos = vec3(model * vec4(position, 1.0f));
+}

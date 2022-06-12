@@ -89,13 +89,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../../dependencies/glfw-3.3.4.bin.WIN32/include;../../dependencies/GLAD/include;../../dependencies/glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Project\cg-releases\libs\glm;C:\Project\cg-releases\libs\glad\include;C:\Project\cg-releases\libs\glfw-3.3.6.bin.WIN64\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../../dependencies/glfw-3.3.4.bin.WIN32/lib-vc2019</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Project\cg-releases\libs\glfw-3.3.6.bin.WIN64\lib-vc2019</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;glfw3dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <PerUserRedirection>true</PerUserRedirection>
     </Link>
   </ItemDefinitionGroup>
@@ -121,13 +121,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Project\cg-releases\libs\glm;C:\Project\cg-releases\libs\glfw-3.3.6.bin.WIN64\include;C:\Project\cg-releases\libs\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Project\vcpkg\packages\stb_x86-windows\include;C:\Project\vcpkg\packages\assimp_x86-windows\include;C:\Project\cg-releases\libs\glm;C:\Project\cg-releases\libs\glfw-3.3.6.bin.WIN64\include;C:\Project\cg-releases\libs\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Project\cg-releases\libs\glfw-3.3.6.bin.WIN64\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;glfw3dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Project\vcpkg\packages\assimp_x86-windows\lib;C:\Project\cg-releases\libs\glfw-3.3.6.bin.WIN64\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;glfw3dll.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -157,7 +157,10 @@
   <ItemGroup>
     <ClInclude Include="CallbackHandler.h" />
     <ClInclude Include="Geometry.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="KeyboardCallback.h" />
+    <ClInclude Include="MeshShader.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="ObjectModel.h" />
     <ClInclude Include="MouseCallback.h" />
     <ClInclude Include="Program.h" />

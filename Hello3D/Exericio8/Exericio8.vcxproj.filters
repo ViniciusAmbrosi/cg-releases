@@ -37,6 +37,12 @@
     <Filter Include="Arquivos de Origem\Callbacks">
       <UniqueIdentifier>{7c154a9e-f965-4c6b-b1de-a99042ec821d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Arquivos de Origem\Resources\ShaderFiles\phong">
+      <UniqueIdentifier>{8cf6fc2c-f139-4481-8c0c-ece80624e1f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\Mesh">
+      <UniqueIdentifier>{c50aa124-6c50-4602-87c1-63e888361a98}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Origem.cpp">
@@ -56,6 +62,15 @@
     </ClCompile>
     <ClCompile Include="Geometry.cpp">
       <Filter>Arquivos de Origem\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="phongFragmentShader.fs">
+      <Filter>Arquivos de Origem\Resources\ShaderFiles\phong</Filter>
+    </ClCompile>
+    <ClCompile Include="phongVertexShader.vs">
+      <Filter>Arquivos de Origem\Resources\ShaderFiles\phong</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelLoading.cpp">
+      <Filter>Arquivos de Origem\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +100,15 @@
     </ClInclude>
     <ClInclude Include="CallbackHandler.h">
       <Filter>Arquivos de Origem\Callbacks</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Arquivos de Origem\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshShader.h">
+      <Filter>Arquivos de Origem\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Arquivos de Origem\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

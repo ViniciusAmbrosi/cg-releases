@@ -8,6 +8,11 @@
 #include <vector>
 #include <glm/glm.hpp>
 
+#include <stb_image.h>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 using namespace std;
 
 class ObjectModel
@@ -96,9 +101,13 @@ public:
 
 		for (unsigned int i = 0; i < vertexIndices.size(); i++) {
 			unsigned int vertexIndex = vertexIndices[i];
+			unsigned int normalIndex = normalIndices[i];
+
 			glm::vec3 vertex = temp_vertices[vertexIndex - 1];
+			glm::vec3 normalVertex = temp_normals[normalIndex - 1];
+
 			vertices.push_back(vertex);
-			vertices.push_back(color);
+			vertices.push_back(normalVertex);
 		}
 
 		for (unsigned int i = 0; i < uvIndices.size(); i++) {

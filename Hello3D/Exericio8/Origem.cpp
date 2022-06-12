@@ -19,7 +19,7 @@ Program setupProgram()
 {
 	Shader vertexShaderSource = Shader("Resources/ShaderFiles/vertexShader.vs", GL_VERTEX_SHADER);
 	Shader fragmentShaderSource = Shader("Resources/ShaderFiles/fragmentShader.fs", GL_FRAGMENT_SHADER);
-
+		
 	return Program(vertexShaderSource, fragmentShaderSource);
 }
 
@@ -72,16 +72,19 @@ int main()
 
 	Program program = setupProgram();
 
-	//Model cube = Model("Resources/Models/Cube/cube.obj", 1, 0);
-	ObjectModel malePikachu = ObjectModel("Resources/Models/Pokemon/Pikachu.obj", 2, -1, glm::vec3(1.0f,1.0f,0.0f));
-	ObjectModel femalePikachu = ObjectModel("Resources/Models/Pokemon/PikachuF.obj", 18, 1, glm::vec3(0.8f, 0.8f, 0.0f));
+	ObjectModel cube = ObjectModel("Resources/Models/Cube/cube.obj", 1, 0, glm::vec3(0.5f, 0.5f, 0.5f));
+	ObjectModel malePikachu = ObjectModel("Resources/Models/Pokemon/Pikachu.obj", 2, -1, glm::vec3(0.5f,0.5f,0.5f));
+	ObjectModel femalePikachu = ObjectModel("Resources/Models/Pokemon/Pikachu.obj", 2, 1, glm::vec3(0.5f, 0.5f, 0.5f));
 	
-	//Geometry CubeGeometry = program.SetupGeometryForArray(CubeVector);
+	Geometry CubeGeometry = program.SetupGeometryForModel(cube);
 	//Geometry FloorGeometry = program.SetupGeometryForArray(FloorVector);
 	Geometry PikachuGeometry = program.SetupGeometryForModel(malePikachu);
 	Geometry FemalePikachuGeometry = program.SetupGeometryForModel(femalePikachu);
 
 	glUseProgram(program.GetProgram());
+
+	//Propriedades do material dos objetos
+	float ka, kd, ks, n;
 
 	glm::mat4 model = glm::mat4(1); 
 	GLint modelLocation = glGetUniformLocation(program.GetProgram(), "model");
@@ -92,9 +95,28 @@ int main()
 	glm::mat4 projection;
 	GLint projLocation = glGetUniformLocation(program.GetProgram(), "projection");
 
-	projection = glm::perspective(glm::radians(callbackHandler.scrollHandler.GetFov()), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
+	GLint objectColorLocation = glGetUniformLocation(program.GetProgram(), "finalColor");
+	GLint lightColorLocation = glGetUniformLocation(program.GetProgram(), "lightColor");
+	GLint lightPosLocation = glGetUniformLocation(program.GetProgram(), "lightPos");
+	GLint viewPosLocation = glGetUniformLocation(program.GetProgram(), "viewPos");
 
+	GLint kaLocation = glGetUniformLocation(program.GetProgram(), "ka");
+	GLint kdLocation = glGetUniformLocation(program.GetProgram(), "kd");
+	GLint ksLocation = glGetUniformLocation(program.GetProgram(), "ks");
+	GLint nLocation = glGetUniformLocation(program.GetProgram(), "n");
+
+	projection = glm::perspective(glm::radians(callbackHandler.scrollHandler.GetFov()), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
 	model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+	glUniform3f(objectColorLocation, 1.0f, 0.0f, 1.0f);
+	glUniform3f(lightColorLocation, 1.0f, 1.0f, 1.0f);
+	glUniform3f(lightPosLocation, 0.0, 10.0, 10.0);
+	glUniform3f(viewPosLocation, cameraPos.x, cameraPos.y, cameraPos.z);
+	glUniform1f(kaLocation, 1.0);
+	glUniform1f(kdLocation, 0.45);
+	glUniform1f(ksLocation, 0.9);
+	glUniform1f(nLocation, 500.0);
+
 	glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
 	glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
 	glUniformMatrix4fv(projLocation, 1, GL_FALSE, glm::value_ptr(projection));
@@ -119,9 +141,10 @@ int main()
 		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 		projection = glm::perspective(glm::radians(callbackHandler.scrollHandler.GetFov()), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
 
-		glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLocation, 1, GL_FALSE, glm::value_ptr(projection));
+		glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
+		glUniform3f(viewPosLocation, cameraPos.x, cameraPos.y, cameraPos.z);
 
 		program.DrawAllGeometries();
 
