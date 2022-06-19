@@ -148,7 +148,6 @@ int main()
 		meshShader.setMat4("model", model);
 
 		ourModel.Draw(meshShader);
-		//ourSecondModel.Draw(meshShader);
 
 		glfwSwapBuffers(window);
 	}
