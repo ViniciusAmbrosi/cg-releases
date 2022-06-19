@@ -63,15 +63,6 @@
     <ClCompile Include="Geometry.cpp">
       <Filter>Arquivos de Origem\Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="phongFragmentShader.fs">
-      <Filter>Arquivos de Origem\Resources\ShaderFiles\phong</Filter>
-    </ClCompile>
-    <ClCompile Include="phongVertexShader.vs">
-      <Filter>Arquivos de Origem\Resources\ShaderFiles\phong</Filter>
-    </ClCompile>
-    <ClCompile Include="ModelLoading.cpp">
-      <Filter>Arquivos de Origem\Mesh</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -105,6 +96,9 @@
       <Filter>Arquivos de Origem\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="MeshShader.h">
+      <Filter>Arquivos de Origem\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshLoading.h">
       <Filter>Arquivos de Origem\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">

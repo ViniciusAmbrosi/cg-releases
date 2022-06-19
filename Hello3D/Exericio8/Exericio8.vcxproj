@@ -157,8 +157,9 @@
   <ItemGroup>
     <ClInclude Include="CallbackHandler.h" />
     <ClInclude Include="Geometry.h" />
-    <ClInclude Include="Mesh.h" />
     <ClInclude Include="KeyboardCallback.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshLoading.h" />
     <ClInclude Include="MeshShader.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ObjectModel.h" />

@@ -8,8 +8,10 @@
 #include "Program.cpp"
 #include "Shader.cpp"
 #include "Geometry.cpp"
-
+#include "Model.h"
 #include "CallbackHandler.h"
+
+#include <iostream>
 
 const GLuint WIDTH = 1000, HEIGHT = 1000;
 
@@ -72,50 +74,44 @@ int main()
 
 	Program program = setupProgram();
 
-	ObjectModel cube = ObjectModel("Resources/Models/Cube/cube.obj", 1, 0, glm::vec3(0.5f, 0.5f, 0.5f));
-	ObjectModel malePikachu = ObjectModel("Resources/Models/Pokemon/Pikachu.obj", 2, -1, glm::vec3(0.5f,0.5f,0.5f));
-	ObjectModel femalePikachu = ObjectModel("Resources/Models/Pokemon/Pikachu.obj", 2, 1, glm::vec3(0.5f, 0.5f, 0.5f));
-	
-	Geometry CubeGeometry = program.SetupGeometryForModel(cube);
-	//Geometry FloorGeometry = program.SetupGeometryForArray(FloorVector);
-	Geometry PikachuGeometry = program.SetupGeometryForModel(malePikachu);
-	Geometry FemalePikachuGeometry = program.SetupGeometryForModel(femalePikachu);
+	MeshShader meshShader("Resources/ShaderFiles/vertexShader.vs", "Resources/ShaderFiles/fragmentShader.fs");
+	Model ourModel("Resources/Models/Pokemon/Pikachu.obj");
+	Model ourSecondModel("Resources/Models/Cube/cube.obj");
 
-	glUseProgram(program.GetProgram());
+	meshShader.use();
 
-	//Propriedades do material dos objetos
 	float ka, kd, ks, n;
 
 	glm::mat4 model = glm::mat4(1); 
-	GLint modelLocation = glGetUniformLocation(program.GetProgram(), "model");
+	GLint modelLocation = glGetUniformLocation(meshShader.ID, "model");
 
 	glm::mat4 view;
-	GLint viewLocation = glGetUniformLocation(program.GetProgram(), "view");
+	GLint viewLocation = glGetUniformLocation(meshShader.ID, "view");
 
 	glm::mat4 projection;
-	GLint projLocation = glGetUniformLocation(program.GetProgram(), "projection");
+	GLint projLocation = glGetUniformLocation(meshShader.ID, "projection");
 
-	GLint objectColorLocation = glGetUniformLocation(program.GetProgram(), "finalColor");
-	GLint lightColorLocation = glGetUniformLocation(program.GetProgram(), "lightColor");
-	GLint lightPosLocation = glGetUniformLocation(program.GetProgram(), "lightPos");
-	GLint viewPosLocation = glGetUniformLocation(program.GetProgram(), "viewPos");
+	//GLint objectColorLocation = glGetUniformLocation(program.GetProgram(), "finalColor"); - removido por causa das texturas
+	GLint lightColorLocation = glGetUniformLocation(meshShader.ID, "lightColor");
+	GLint lightPosLocation = glGetUniformLocation(meshShader.ID, "lightPos");
+	GLint viewPosLocation = glGetUniformLocation(meshShader.ID, "viewPos");
 
-	GLint kaLocation = glGetUniformLocation(program.GetProgram(), "ka");
-	GLint kdLocation = glGetUniformLocation(program.GetProgram(), "kd");
-	GLint ksLocation = glGetUniformLocation(program.GetProgram(), "ks");
-	GLint nLocation = glGetUniformLocation(program.GetProgram(), "n");
+	GLint kaLocation = glGetUniformLocation(meshShader.ID, "ka");
+	GLint kdLocation = glGetUniformLocation(meshShader.ID, "kd");
+	GLint ksLocation = glGetUniformLocation(meshShader.ID, "ks");
+	GLint nLocation = glGetUniformLocation(meshShader.ID, "n");
 
 	projection = glm::perspective(glm::radians(callbackHandler.scrollHandler.GetFov()), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
 	model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
-	glUniform3f(objectColorLocation, 1.0f, 0.0f, 1.0f);
+	//glUniform3f(objectColorLocation, 1.0f, 0.0f, 1.0f); - removido por causa das texturas
 	glUniform3f(lightColorLocation, 1.0f, 1.0f, 1.0f);
-	glUniform3f(lightPosLocation, 0.0, 10.0, 10.0);
+	glUniform3f(lightPosLocation, 0.0, 10.0, -5.0);
 	glUniform3f(viewPosLocation, cameraPos.x, cameraPos.y, cameraPos.z);
 	glUniform1f(kaLocation, 1.0);
 	glUniform1f(kdLocation, 0.45);
 	glUniform1f(ksLocation, 0.9);
-	glUniform1f(nLocation, 500.0);
+	glUniform1f(nLocation, 32);
 
 	glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
 	glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
@@ -146,7 +142,13 @@ int main()
 		glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform3f(viewPosLocation, cameraPos.x, cameraPos.y, cameraPos.z);
 
-		program.DrawAllGeometries();
+		meshShader.use();
+		meshShader.setMat4("projection", projection);
+		meshShader.setMat4("view", view);
+		meshShader.setMat4("model", model);
+
+		ourModel.Draw(meshShader);
+		//ourSecondModel.Draw(meshShader);
 
 		glfwSwapBuffers(window);
 	}
