@@ -75,8 +75,9 @@ int main()
 	Program program = setupProgram();
 
 	MeshShader meshShader("Resources/ShaderFiles/vertexShader.vs", "Resources/ShaderFiles/fragmentShader.fs");
-	Model ourModel("Resources/Models/Pokemon/Pikachu.obj");
-	Model ourSecondModel("Resources/Models/Cube/cube.obj");
+
+	Model malePikachu("Resources/Models/Pokemon/Pikachu.obj", 2, -1);
+	Model femalePikachu("Resources/Models/Pokemon/PikachuF.obj", 18, 1);
 
 	meshShader.use();
 
@@ -147,7 +148,8 @@ int main()
 		meshShader.setMat4("view", view);
 		meshShader.setMat4("model", model);
 
-		ourModel.Draw(meshShader);
+		malePikachu.Draw(meshShader);
+		femalePikachu.Draw(meshShader);
 
 		glfwSwapBuffers(window);
 	}

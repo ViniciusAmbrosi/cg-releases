@@ -159,7 +159,6 @@
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="KeyboardCallback.h" />
     <ClInclude Include="Mesh.h" />
-    <ClInclude Include="MeshLoading.h" />
     <ClInclude Include="MeshShader.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ObjectModel.h" />

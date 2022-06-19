@@ -98,9 +98,6 @@
     <ClInclude Include="MeshShader.h">
       <Filter>Arquivos de Origem\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="MeshLoading.h">
-      <Filter>Arquivos de Origem\Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="Model.h">
       <Filter>Arquivos de Origem\Mesh</Filter>
     </ClInclude>

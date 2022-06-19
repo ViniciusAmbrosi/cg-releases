@@ -33,11 +33,17 @@ public:
     vector<Mesh> meshes;
 
     string directory;
+    
+    int sizeFactor;
+    int xDeslocation;
+
     bool gammaCorrection;
 
-    Model(string const& path, bool gamma = false) : gammaCorrection(gamma)
+    Model(string const& path, int sizeFactorParam, int xDeslocationParam, bool gamma = false) : gammaCorrection(gamma)
     {
         directory = path.substr(0, path.find_last_of('/'));
+        sizeFactor = sizeFactorParam;
+        xDeslocation = xDeslocationParam;
 
         loadModel(path);
     }
@@ -93,9 +99,9 @@ private:
             glm::vec3 vector;
 
             // positions
-            vector.x = mesh->mVertices[i].x;
-            vector.y = mesh->mVertices[i].y;
-            vector.z = mesh->mVertices[i].z;
+            vector.x = (mesh->mVertices[i].x / sizeFactor) + xDeslocation;
+            vector.y = (mesh->mVertices[i].y / sizeFactor);
+            vector.z = (mesh->mVertices[i].z / sizeFactor);
             vertex.Position = vector;
 
             // normals
