@@ -10,6 +10,7 @@
 #include "Geometry.cpp"
 #include "Model.h"
 #include "CallbackHandler.h"
+#include "ConfigReader.h"
 
 #include <iostream>
 
@@ -51,6 +52,8 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 
 int main()
 {
+	ConfigReader configReader = ConfigReader("configurationFile.json");
+
 	glfwInit();
 
 	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Computação Gráfica", nullptr, nullptr);

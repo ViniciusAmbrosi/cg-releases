@@ -1,0 +1,22 @@
+{
+  "camera": {
+    "xPos": "",
+    "yPos": "",
+    "zPos": ""
+  },
+  "sceneObjects": [
+    {
+      "filePath": "path",
+      "scale": "2",
+      "xDeslocation": "-1"
+    },
+    {
+      "filePath": "path",
+      "scale": "18",
+      "xDeslocation": "1"
+    }
+  ],
+  "illumination": {
+    "strength":  "123"
+  }
+}

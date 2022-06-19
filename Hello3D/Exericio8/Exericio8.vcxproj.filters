@@ -43,6 +43,9 @@
     <Filter Include="Arquivos de Origem\Mesh">
       <UniqueIdentifier>{c50aa124-6c50-4602-87c1-63e888361a98}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Arquivos de Origem\ConfigReader">
+      <UniqueIdentifier>{43926b1a-b5a8-4689-946e-38eda3cb10a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Origem.cpp">
@@ -101,6 +104,9 @@
     <ClInclude Include="Model.h">
       <Filter>Arquivos de Origem\Mesh</Filter>
     </ClInclude>
+    <ClInclude Include="ConfigReader.h">
+      <Filter>Arquivos de Origem\ConfigReader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ShaderFiles\vertexShader.vs">
@@ -108,6 +114,9 @@
     </None>
     <None Include="Resources\ShaderFiles\fragmentShader.fs">
       <Filter>Arquivos de Origem\Resources\ShaderFiles</Filter>
+    </None>
+    <None Include="configurationFile.json">
+      <Filter>Arquivos de Origem</Filter>
     </None>
   </ItemGroup>
 </Project>
