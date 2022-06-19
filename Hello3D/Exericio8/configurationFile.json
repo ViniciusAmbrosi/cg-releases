@@ -1,22 +1,40 @@
 {
   "camera": {
-    "xPos": "",
-    "yPos": "",
-    "zPos": ""
+    "xPos": "asd",
+    "yPos": "dsa",
+    "zPos": "asdasd"
   },
   "sceneObjects": [
     {
-      "filePath": "path",
-      "scale": "2",
-      "xDeslocation": "-1"
+      "filePath": "Resources/Models/Pokemon/Pikachu.obj",
+      "scale": 2,
+      "xDeslocation": -1
     },
     {
-      "filePath": "path",
-      "scale": "18",
-      "xDeslocation": "1"
+      "filePath": "Resources/Models/Pokemon/PikachuF.obj",
+      "scale": 18,
+      "xDeslocation": 1
+    },
+    {
+      "filePath": "Resources/Models/Pokemon/PikachuF.obj",
+      "scale": 32,
+      "xDeslocation": 2
     }
   ],
   "illumination": {
-    "strength":  "123"
+    "lightColor": {
+      "r": 1,
+      "g": 1,
+      "b": 1
+    },
+    "lightPosition": {
+      "x": 0.0,
+      "y": 10.0,
+      "z": -5.0
+    },
+    "ka": 1,
+    "kd": 0.45,
+    "ks": 0.9,
+    "n": 32
   }
 }

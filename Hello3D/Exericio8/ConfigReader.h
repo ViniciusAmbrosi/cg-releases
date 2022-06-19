@@ -21,14 +21,25 @@ struct Camera
 
 struct Illumination
 {
-    std::string strength;
+    float lightColorR;
+    float lightColorG;
+    float lightColorB;
+
+    float lightPositionX;
+    float lightPositionY;
+    float lightPositionZ;
+    
+    float ka;
+    float ks;
+    float kd;
+    float n;
 };
 
 struct SceneObject
 {
     std::string filePath;
-    std::string scale;
-    std::string xDeslocation;
+    float scale;
+    float xDeslocation;
 };
 
 struct Configuration
@@ -47,7 +58,19 @@ void from_json(const json& j, Configuration& configuration)
     configuration.camera = camera;
 
     Illumination illumination;
-    j.at("illumination").at("strength").get_to(illumination.strength);
+    j.at("illumination").at("lightColor").at("r").get_to(illumination.lightColorR);
+    j.at("illumination").at("lightColor").at("g").get_to(illumination.lightColorG);
+    j.at("illumination").at("lightColor").at("b").get_to(illumination.lightColorB);
+
+    j.at("illumination").at("lightPosition").at("x").get_to(illumination.lightPositionX);
+    j.at("illumination").at("lightPosition").at("y").get_to(illumination.lightPositionY);
+    j.at("illumination").at("lightPosition").at("z").get_to(illumination.lightPositionZ);
+
+    j.at("illumination").at("ka").get_to(illumination.ka);
+    j.at("illumination").at("kd").get_to(illumination.kd);
+    j.at("illumination").at("ks").get_to(illumination.ks);
+    j.at("illumination").at("n").get_to(illumination.n);
+
     configuration.illumination = illumination;
 
     for (auto& elem : j["sceneObjects"]) {
@@ -63,6 +86,8 @@ void from_json(const json& j, Configuration& configuration)
 class ConfigReader
 {
 public:
+    Configuration configuration;
+
 	ConfigReader(string const& configFilePath)
 	{
 		std::ifstream ifs(configFilePath);
@@ -72,7 +97,6 @@ public:
 		std::cout << configurationFile << std::endl;
 		std::cout << "______ config file : end ________" << std::endl;
 
-        Configuration configuration;
         from_json(configurationFile, configuration);
 	}
 };

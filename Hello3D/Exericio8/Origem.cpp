@@ -13,6 +13,7 @@
 #include "ConfigReader.h"
 
 #include <iostream>
+#include <vector>
 
 const GLuint WIDTH = 1000, HEIGHT = 1000;
 
@@ -53,6 +54,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
 int main()
 {
 	ConfigReader configReader = ConfigReader("configurationFile.json");
+	Configuration configuration = configReader.configuration;
 
 	glfwInit();
 
@@ -78,13 +80,17 @@ int main()
 	Program program = setupProgram();
 
 	MeshShader meshShader("Resources/ShaderFiles/vertexShader.vs", "Resources/ShaderFiles/fragmentShader.fs");
+	std::vector<Model> models;
 
-	Model malePikachu("Resources/Models/Pokemon/Pikachu.obj", 2, -1);
-	Model femalePikachu("Resources/Models/Pokemon/PikachuF.obj", 18, 1);
+	for (int i = 0; i < configuration.sceneObjects.size(); i++)
+	{
+		SceneObject object = configuration.sceneObjects[i];
+		Model newModel(object.filePath, object.scale, object.xDeslocation);
+
+		models.push_back(newModel);
+	}
 
 	meshShader.use();
-
-	float ka, kd, ks, n;
 
 	glm::mat4 model = glm::mat4(1); 
 	GLint modelLocation = glGetUniformLocation(meshShader.ID, "model");
@@ -109,13 +115,22 @@ int main()
 	model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
 	//glUniform3f(objectColorLocation, 1.0f, 0.0f, 1.0f); - removido por causa das texturas
-	glUniform3f(lightColorLocation, 1.0f, 1.0f, 1.0f);
-	glUniform3f(lightPosLocation, 0.0, 10.0, -5.0);
+	glUniform3f(lightColorLocation, 
+		configuration.illumination.lightColorR,
+		configuration.illumination.lightColorG, 
+		configuration.illumination.lightColorB);
+
+	glUniform3f(lightPosLocation,
+		configuration.illumination.lightPositionX,
+		configuration.illumination.lightPositionY,
+		configuration.illumination.lightPositionZ);
+
 	glUniform3f(viewPosLocation, cameraPos.x, cameraPos.y, cameraPos.z);
-	glUniform1f(kaLocation, 1.0);
-	glUniform1f(kdLocation, 0.45);
-	glUniform1f(ksLocation, 0.9);
-	glUniform1f(nLocation, 32);
+
+	glUniform1f(kaLocation, configuration.illumination.ka);
+	glUniform1f(kdLocation, configuration.illumination.kd);
+	glUniform1f(ksLocation, configuration.illumination.ks);
+	glUniform1f(nLocation, configuration.illumination.n);
 
 	glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(model));
 	glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(view));
@@ -130,7 +145,7 @@ int main()
 
 		glfwPollEvents();
 
-		glClearColor(1.0f, 1.0f, 1.0f, 1.0f); //cor de fundo
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glLineWidth(10);
@@ -151,8 +166,9 @@ int main()
 		meshShader.setMat4("view", view);
 		meshShader.setMat4("model", model);
 
-		malePikachu.Draw(meshShader);
-		femalePikachu.Draw(meshShader);
+		for (auto& model : models) {
+			model.Draw(meshShader);
+		}
 
 		glfwSwapBuffers(window);
 	}
