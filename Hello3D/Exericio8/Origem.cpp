@@ -85,7 +85,7 @@ int main()
 	for (int i = 0; i < configuration.sceneObjects.size(); i++)
 	{
 		SceneObject object = configuration.sceneObjects[i];
-		Model newModel(object.filePath, object.scale, object.xDeslocation);
+		Model newModel(object.filePath, object.scale, object.xDeslocation, object.zDeslocation, object.rotation);
 
 		models.push_back(newModel);
 	}
@@ -166,8 +166,8 @@ int main()
 		meshShader.setMat4("view", view);
 		meshShader.setMat4("model", model);
 
-		for (auto& model : models) {
-			model.Draw(meshShader);
+		for (auto& drawModel : models) {
+			drawModel.Draw(meshShader);
 		}
 
 		glfwSwapBuffers(window);

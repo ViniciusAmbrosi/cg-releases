@@ -44,7 +44,7 @@ public:
         setupMesh();
     }
 
-    void Draw(MeshShader& shader)
+    void Draw(MeshShader& shader, int rotation)
     {
         unsigned int diffuseNr = 1;
         unsigned int specularNr = 1;

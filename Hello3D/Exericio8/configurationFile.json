@@ -8,17 +8,79 @@
     {
       "filePath": "Resources/Models/Pokemon/Pikachu.obj",
       "scale": 2,
-      "xDeslocation": -1
+      "xDeslocation": 0,
+      "zDeslocation": 0,
+      "rotation": 1
     },
     {
       "filePath": "Resources/Models/Pokemon/PikachuF.obj",
       "scale": 18,
-      "xDeslocation": 1
+      "xDeslocation": 2.5,
+      "zDeslocation": 1.5,
+      "rotation": 45
+    },
+    {
+      "filePath": "Resources/Models/Pokemon/Pikachu.obj",
+      "scale": 2,
+      "xDeslocation": 3,
+      "zDeslocation": 3,
+      "rotation": 90
+    },
+    {
+      "filePath": "Resources/Models/Pokemon/Pikachu.obj",
+      "scale": 2,
+      "xDeslocation": 3,
+      "zDeslocation": 5,
+      "rotation": 90
     },
     {
       "filePath": "Resources/Models/Pokemon/PikachuF.obj",
-      "scale": 32,
-      "xDeslocation": 2
+      "scale": 18,
+      "xDeslocation": 2.5,
+      "zDeslocation": 7.5,
+      "rotation": 120
+    },
+    {
+      "filePath": "Resources/Models/Pokemon/Pikachu.obj",
+      "scale": 2,
+      "xDeslocation": 0,
+      "zDeslocation": 8,
+      "rotation": 180
+    },
+    {
+      "filePath": "Resources/Models/Pokemon/PikachuF.obj",
+      "scale": 18,
+      "xDeslocation": -2.5,
+      "zDeslocation": 1.5,
+      "rotation": 0
+    },
+    {
+      "filePath": "Resources/Models/Pokemon/Pikachu.obj",
+      "scale": 2,
+      "xDeslocation": -3,
+      "zDeslocation": 3,
+      "rotation": 0
+    },
+    {
+      "filePath": "Resources/Models/Pokemon/Pikachu.obj",
+      "scale": 2,
+      "xDeslocation": -3,
+      "zDeslocation": 5,
+      "rotation": 0
+    },
+    {
+      "filePath": "Resources/Models/Pokemon/PikachuF.obj",
+      "scale": 18,
+      "xDeslocation": -2.5,
+      "zDeslocation": 7.5,
+      "rotation": 0
+    },
+    {
+      "filePath": "Resources/Models/Pokemon/umbreon/UmbreonHighPoly.obj",
+      "scale": 2,
+      "xDeslocation": 10,
+      "zDeslocation": 1,
+      "rotation": 0
     }
   ],
   "illumination": {

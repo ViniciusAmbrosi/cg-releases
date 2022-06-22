@@ -40,6 +40,8 @@ struct SceneObject
     std::string filePath;
     float scale;
     float xDeslocation;
+    float zDeslocation;
+    float rotation;
 };
 
 struct Configuration
@@ -78,6 +80,8 @@ void from_json(const json& j, Configuration& configuration)
         elem["filePath"].get_to(object.filePath);
         elem["scale"].get_to(object.scale);
         elem["xDeslocation"].get_to(object.xDeslocation);
+        elem["zDeslocation"].get_to(object.zDeslocation);
+        elem["rotation"].get_to(object.rotation);
 
         configuration.sceneObjects.push_back(object);
     }
