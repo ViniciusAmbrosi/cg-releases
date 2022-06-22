@@ -89,8 +89,8 @@
       "filePath": "Resources/Models/Pokemon/umbreon/UmbreonHighPoly.obj",
       "scale": 2,
       "xDeslocation": 10,
-      "zDeslocation": 1,
-      "yDeslocation": -0.25,
+      "zDeslocation": 5,
+      "yDeslocation": 0.45,
       "rotation": 0
     },
     {
