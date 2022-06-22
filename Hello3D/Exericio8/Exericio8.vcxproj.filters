@@ -25,6 +25,27 @@
     <Filter Include="Arquivos de Origem\Program">
       <UniqueIdentifier>{f834f3de-0a2d-41e4-a74c-1617ee701a9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Arquivos de Origem\Model">
+      <UniqueIdentifier>{e29d29df-0ce6-4162-8257-5fe38c110de2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\Geometry">
+      <UniqueIdentifier>{31e517a5-dfbb-4d56-9bf0-2e0e5da3a274}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\Vectors">
+      <UniqueIdentifier>{f8e2b3bd-707f-4d9a-b7c4-7c3f5a29ab66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\Callbacks">
+      <UniqueIdentifier>{7c154a9e-f965-4c6b-b1de-a99042ec821d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\Resources\ShaderFiles\phong">
+      <UniqueIdentifier>{8cf6fc2c-f139-4481-8c0c-ece80624e1f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\Mesh">
+      <UniqueIdentifier>{c50aa124-6c50-4602-87c1-63e888361a98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Arquivos de Origem\ConfigReader">
+      <UniqueIdentifier>{43926b1a-b5a8-4689-946e-38eda3cb10a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Origem.cpp">
@@ -39,14 +60,12 @@
     <ClCompile Include="Program.cpp">
       <Filter>Arquivos de Origem\Program</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="fragmentShader.fs">
-      <Filter>Arquivos de Origem\Resources\ShaderFiles</Filter>
-    </None>
-    <None Include="vertexShader.vs">
-      <Filter>Arquivos de Origem\Resources\ShaderFiles</Filter>
-    </None>
+    <ClCompile Include="ObjectModel.cpp">
+      <Filter>Arquivos de Origem\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometry.cpp">
+      <Filter>Arquivos de Origem\Geometry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -55,5 +74,49 @@
     <ClInclude Include="Program.h">
       <Filter>Arquivos de Origem\Program</Filter>
     </ClInclude>
+    <ClInclude Include="ObjectModel.h">
+      <Filter>Arquivos de Origem\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry.h">
+      <Filter>Arquivos de Origem\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Vectors.h">
+      <Filter>Arquivos de Origem\Vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseCallback.h">
+      <Filter>Arquivos de Origem\Callbacks</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardCallback.h">
+      <Filter>Arquivos de Origem\Callbacks</Filter>
+    </ClInclude>
+    <ClInclude Include="ScrollCallback.h">
+      <Filter>Arquivos de Origem\Callbacks</Filter>
+    </ClInclude>
+    <ClInclude Include="CallbackHandler.h">
+      <Filter>Arquivos de Origem\Callbacks</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Arquivos de Origem\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshShader.h">
+      <Filter>Arquivos de Origem\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Arquivos de Origem\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigReader.h">
+      <Filter>Arquivos de Origem\ConfigReader</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ShaderFiles\vertexShader.vs">
+      <Filter>Arquivos de Origem\Resources\ShaderFiles</Filter>
+    </None>
+    <None Include="Resources\ShaderFiles\fragmentShader.fs">
+      <Filter>Arquivos de Origem\Resources\ShaderFiles</Filter>
+    </None>
+    <None Include="configurationFile.json">
+      <Filter>Arquivos de Origem</Filter>
+    </None>
   </ItemGroup>
 </Project>

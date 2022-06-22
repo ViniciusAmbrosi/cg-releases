@@ -4,7 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include <glad/glad.h>
+#include "../../libs/glad/include/glad/glad.h"
 
 using namespace std;
 

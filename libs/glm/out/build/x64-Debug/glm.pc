@@ -1,0 +1,7 @@
+prefix=C:/Project/cg-releases/libs/glm/out/install/x64-Debug
+includedir=${prefix}/include
+
+Name: GLM
+Description: OpenGL Mathematics
+Version: 0.9.7
+Cflags: -I${includedir}

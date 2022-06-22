@@ -1,0 +1,121 @@
+{
+  "camera": {
+    "xPos": 0,
+    "yPos": 0,
+    "zPos": 5.0
+  },
+  "sceneObjects": [
+    {
+      "filePath": "Resources/Models/Pokemon/Pikachu.obj",
+      "scale": 2,
+      "xDeslocation": 0,
+      "zDeslocation": 0,
+      "yDeslocation": -1.7,
+      "rotation": 1
+    },
+    {
+      "filePath": "Resources/Models/Pokemon/PikachuF.obj",
+      "scale": 18,
+      "xDeslocation": 2.5,
+      "zDeslocation": 1.5,
+      "yDeslocation": -1.65,
+      "rotation": 45
+    },
+    {
+      "filePath": "Resources/Models/Pokemon/Pikachu.obj",
+      "scale": 2,
+      "xDeslocation": 3,
+      "zDeslocation": 3,
+      "yDeslocation": -1.75,
+      "rotation": 90
+    },
+    {
+      "filePath": "Resources/Models/Pokemon/Pikachu.obj",
+      "scale": 2,
+      "xDeslocation": 3,
+      "zDeslocation": 5,
+      "yDeslocation": -1.72,
+      "rotation": 90
+    },
+    {
+      "filePath": "Resources/Models/Pokemon/PikachuF.obj",
+      "scale": 18,
+      "xDeslocation": 2.5,
+      "zDeslocation": 7.5,
+      "yDeslocation": -1.5,
+      "rotation": 120
+    },
+    {
+      "filePath": "Resources/Models/Pokemon/Pikachu.obj",
+      "scale": 2,
+      "xDeslocation": 0,
+      "zDeslocation": 8,
+      "yDeslocation": -1.2,
+      "rotation": 180
+    },
+    {
+      "filePath": "Resources/Models/Pokemon/PikachuF.obj",
+      "scale": 18,
+      "xDeslocation": -2.5,
+      "zDeslocation": 1.5,
+      "yDeslocation": -1.8,
+      "rotation": 0
+    },
+    {
+      "filePath": "Resources/Models/Pokemon/Pikachu.obj",
+      "scale": 2,
+      "xDeslocation": -3,
+      "zDeslocation": 3,
+      "yDeslocation": -1.8,
+      "rotation": 0
+    },
+    {
+      "filePath": "Resources/Models/Pokemon/Pikachu.obj",
+      "scale": 2,
+      "xDeslocation": -3,
+      "zDeslocation": 5,
+      "yDeslocation": -1.4,
+      "rotation": 0
+    },
+    {
+      "filePath": "Resources/Models/Pokemon/PikachuF.obj",
+      "scale": 18,
+      "xDeslocation": -2.5,
+      "zDeslocation": 7.5,
+      "yDeslocation": -1.2,
+      "rotation": 0
+    },
+    {
+      "filePath": "Resources/Models/Pokemon/umbreon/UmbreonHighPoly.obj",
+      "scale": 2,
+      "xDeslocation": 10,
+      "zDeslocation": 5,
+      "yDeslocation": 0.45,
+      "rotation": 0
+    },
+    {
+      "filePath": "Resources/Models/terrain/SnowTerrain.obj",
+      "scale": 1,
+      "xDeslocation": 0,
+      "zDeslocation": 0,
+      "yDeslocation": -2,
+      "rotation": 0
+    }
+  ],
+  "illumination": {
+    "lightColor": {
+      "r": 1,
+      "g": 1,
+      "b": 1
+    },
+    "lightPosition": {
+      "x": 0.0,
+      "y": 10.0,
+      "z": -5.0
+    },
+    "ka": 1,
+    "kd": 0.45,
+    "ks": 0.9,
+    "n": 32
+  }
+}
