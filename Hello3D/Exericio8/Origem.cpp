@@ -85,7 +85,7 @@ int main()
 	for (int i = 0; i < configuration.sceneObjects.size(); i++)
 	{
 		SceneObject object = configuration.sceneObjects[i];
-		Model newModel(object.filePath, object.scale, object.xDeslocation, object.zDeslocation, object.rotation);
+		Model newModel(object.filePath, object.scale, object.xDeslocation, object.zDeslocation, object.yDeslocation, object.rotation);
 
 		models.push_back(newModel);
 	}

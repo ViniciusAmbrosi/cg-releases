@@ -41,6 +41,7 @@ struct SceneObject
     float scale;
     float xDeslocation;
     float zDeslocation;
+    float yDeslocation;
     float rotation;
 };
 
@@ -81,6 +82,7 @@ void from_json(const json& j, Configuration& configuration)
         elem["scale"].get_to(object.scale);
         elem["xDeslocation"].get_to(object.xDeslocation);
         elem["zDeslocation"].get_to(object.zDeslocation);
+        elem["yDeslocation"].get_to(object.yDeslocation);
         elem["rotation"].get_to(object.rotation);
 
         configuration.sceneObjects.push_back(object);

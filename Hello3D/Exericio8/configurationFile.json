@@ -10,6 +10,7 @@
       "scale": 2,
       "xDeslocation": 0,
       "zDeslocation": 0,
+      "yDeslocation": -1.7,
       "rotation": 1
     },
     {
@@ -17,6 +18,7 @@
       "scale": 18,
       "xDeslocation": 2.5,
       "zDeslocation": 1.5,
+      "yDeslocation": -1.65,
       "rotation": 45
     },
     {
@@ -24,6 +26,7 @@
       "scale": 2,
       "xDeslocation": 3,
       "zDeslocation": 3,
+      "yDeslocation": -1.75,
       "rotation": 90
     },
     {
@@ -31,6 +34,7 @@
       "scale": 2,
       "xDeslocation": 3,
       "zDeslocation": 5,
+      "yDeslocation": -1.72,
       "rotation": 90
     },
     {
@@ -38,6 +42,7 @@
       "scale": 18,
       "xDeslocation": 2.5,
       "zDeslocation": 7.5,
+      "yDeslocation": -1.5,
       "rotation": 120
     },
     {
@@ -45,6 +50,7 @@
       "scale": 2,
       "xDeslocation": 0,
       "zDeslocation": 8,
+      "yDeslocation": -1.2,
       "rotation": 180
     },
     {
@@ -52,6 +58,7 @@
       "scale": 18,
       "xDeslocation": -2.5,
       "zDeslocation": 1.5,
+      "yDeslocation": -1.8,
       "rotation": 0
     },
     {
@@ -59,6 +66,7 @@
       "scale": 2,
       "xDeslocation": -3,
       "zDeslocation": 3,
+      "yDeslocation": -1.8,
       "rotation": 0
     },
     {
@@ -66,6 +74,7 @@
       "scale": 2,
       "xDeslocation": -3,
       "zDeslocation": 5,
+      "yDeslocation": -1.4,
       "rotation": 0
     },
     {
@@ -73,6 +82,7 @@
       "scale": 18,
       "xDeslocation": -2.5,
       "zDeslocation": 7.5,
+      "yDeslocation": -1.2,
       "rotation": 0
     },
     {
@@ -80,6 +90,15 @@
       "scale": 2,
       "xDeslocation": 10,
       "zDeslocation": 1,
+      "yDeslocation": -0.25,
+      "rotation": 0
+    },
+    {
+      "filePath": "Resources/Models/terrain/SnowTerrain.obj",
+      "scale": 1,
+      "xDeslocation": 0,
+      "zDeslocation": 0,
+      "yDeslocation": -2,
       "rotation": 0
     }
   ],

@@ -35,18 +35,20 @@ public:
     string directory;
     
     int sizeFactor;
-    int xDeslocation;
-    int zDeslocation;
+    float xDeslocation;
+    float zDeslocation;
+    float yDeslocation;
     float rotation;
 
     bool gammaCorrection;
 
-    Model(string const& path, int sizeFactorParam, int xDeslocationParam, int zDeslocationParam, float rotationParam, bool gamma = false) : gammaCorrection(gamma)
+    Model(string const& path, int sizeFactorParam, float xDeslocationParam, float zDeslocationParam, float yDeslocationParam, float rotationParam, bool gamma = false) : gammaCorrection(gamma)
     {
         directory = path.substr(0, path.find_last_of('/'));
         sizeFactor = sizeFactorParam;
         xDeslocation = xDeslocationParam;
         zDeslocation = zDeslocationParam;
+        yDeslocation = yDeslocationParam;
         rotation = rotationParam;
 
         loadModel(path);
@@ -104,7 +106,7 @@ private:
             // positions
             // apply sizeFactor + xDeslocation factors as parametrized
             vector.x = (mesh->mVertices[i].x / sizeFactor) + xDeslocation;
-            vector.y = (mesh->mVertices[i].y / sizeFactor);
+            vector.y = (mesh->mVertices[i].y / sizeFactor) + yDeslocation;
             vector.z = (mesh->mVertices[i].z / sizeFactor) + zDeslocation;
             vertex.Position = vector;
 
