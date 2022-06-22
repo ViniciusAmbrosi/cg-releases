@@ -3,9 +3,6 @@
 #include <string>
 
 #include <iostream>
-//#include <json/value.h>
-//#include <json/json.h>
-//#include <jsoncpp/json/json.h>
 #include <fstream>
 #include <vector>
 
@@ -14,9 +11,9 @@ using json = nlohmann::json;
 
 struct Camera
 {
-    std::string xPos;
-    std::string yPos;
-    std::string zPos;
+    float xPos;
+    float yPos;
+    float zPos;
 };
 
 struct Illumination

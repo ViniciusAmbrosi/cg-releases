@@ -41,6 +41,11 @@ public:
     float rotation;
 
     bool gammaCorrection;
+    bool selected;
+
+    glm::vec3 kaVec;
+    glm::vec3 ksVec;
+    glm::vec3 kdVec;
 
     Model(string const& path, int sizeFactorParam, float xDeslocationParam, float zDeslocationParam, float yDeslocationParam, float rotationParam, bool gamma = false) : gammaCorrection(gamma)
     {
@@ -59,6 +64,21 @@ public:
         for (unsigned int i = 0; i < meshes.size(); i++)
             meshes[i].Draw(shader, rotation);
     }
+
+    void ResetModelColor()
+    {
+        cout << "Selecionou objeto \n";
+    }
+
+    void UpdateGeometryColor()
+    {
+        cout << "Deselecionou objeto \n";
+    }
+
+    void UpdateColor(glm::vec3 color)
+    {
+        //TBI
+    };
 
 private:
     
@@ -143,6 +163,19 @@ private:
         }
         // process materials
         aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+
+        aiColor3D kd;
+        material->Get(AI_MATKEY_COLOR_DIFFUSE, kd);
+
+        aiColor3D ks;
+        material->Get(AI_MATKEY_COLOR_SPECULAR, ks);
+
+        aiColor3D ka;
+        material->Get(AI_MATKEY_COLOR_AMBIENT, ka);
+
+        kaVec = glm::vec3(ka.r, ka.g, ka.b);
+        ksVec = glm::vec3(ks.r, ks.g, ks.b);
+        kdVec = glm::vec3(kd.r, kd.g, kd.b);
 
         // 1. diffuse maps
         vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");

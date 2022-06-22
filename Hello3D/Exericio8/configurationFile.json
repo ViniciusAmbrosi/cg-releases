@@ -1,8 +1,8 @@
 {
   "camera": {
-    "xPos": "asd",
-    "yPos": "dsa",
-    "zPos": "asdasd"
+    "xPos": 0,
+    "yPos": 0,
+    "zPos": 5.0
   },
   "sceneObjects": [
     {

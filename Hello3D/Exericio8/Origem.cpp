@@ -125,7 +125,10 @@ int main()
 		configuration.illumination.lightPositionY,
 		configuration.illumination.lightPositionZ);
 
-	glUniform3f(viewPosLocation, cameraPos.x, cameraPos.y, cameraPos.z);
+	glUniform3f(viewPosLocation, 
+		configuration.camera.xPos, 
+		configuration.camera.yPos, 
+		configuration.camera.zPos);
 
 	glUniform1f(kaLocation, configuration.illumination.ka);
 	glUniform1f(kdLocation, configuration.illumination.kd);
@@ -151,7 +154,7 @@ int main()
 		glLineWidth(10);
 		glPointSize(20);
 
-		callbackHandler.HandleAllKeyboardActions(model, program.Geometries);
+		callbackHandler.HandleAllKeyboardActions(model, models);
 
 		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 		projection = glm::perspective(glm::radians(callbackHandler.scrollHandler.GetFov()), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
@@ -167,6 +170,10 @@ int main()
 		meshShader.setMat4("model", model);
 
 		for (auto& drawModel : models) {
+			meshShader.setVec3("kaVec", drawModel.kaVec);
+			meshShader.setVec3("ksVec", drawModel.ksVec);
+			meshShader.setVec3("kdVec", drawModel.kdVec);
+
 			drawModel.Draw(meshShader);
 		}
 

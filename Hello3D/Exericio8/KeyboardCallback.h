@@ -244,11 +244,11 @@ public:
 		}
 	}
 
-	void HandleModelSelection(glm::mat4& model, std::vector<Geometry>& geometries)
+	void HandleModelSelection(glm::mat4& model, std::vector<Model>& geometries)
 	{
 		if (attemptToSelectGeometry)
 		{
-			for (Geometry& geometry : geometries)
+			for (Model& geometry : geometries)
 			{
 				if (geometry.selected) 
 				{
